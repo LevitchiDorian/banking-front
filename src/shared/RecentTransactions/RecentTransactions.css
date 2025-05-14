@@ -1,0 +1,137 @@
+.transactions-section {
+  background: #ffffff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.transactions-list {
+  margin-top: 1rem;
+}
+
+.transaction-item {
+  padding: 1rem;
+  margin: 0.5rem 0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid #e5e7eb;
+  background: #fff; /* Asigură fundal alb */
+}
+
+.transaction-item:hover {
+  transform: translateX(5px);
+  background-color: #f8fafc;
+}
+
+.transaction-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Stilizare text descriere */
+.transaction-info span:first-child {
+  color: #1e293b; /* Gri-închis */
+  font-weight: 500;
+}
+
+.amount.credit {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.amount.debit {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+.transaction-date {
+  font-size: 0.875rem;
+  color: #64748b; /* Gri-medium */
+  margin-top: 0.3rem;
+}
+
+/* Popup Styles */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.transaction-popup {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  animation: slideUp 0.3s ease-out;
+  color: #1e293b; /* Culoare text generală */
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #64748b;
+}
+
+.close-btn:hover {
+  color: #475569;
+}
+
+.transaction-details {
+  margin-top: 1rem;
+}
+
+.transactions-section {
+  color: #2d3748; /* Aceeași culoare ca în balance-amount */
+  
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+/* Stilizare text în popup */
+.detail-row span:first-child {
+  color: #64748b; /* Gri-medium */
+  font-weight: 500;
+}
+
+.detail-row span:last-child {
+  color: #1e293b; /* Gri-închis */
+  font-weight: 400;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
