@@ -134,3 +134,16 @@
   .nav-btn:hover::after {
     width: 100%;
   }
+
+  /* Adaugă la sfârșitul fișierului Conturi.css */
+.dropdown-loading,
+.dropdown-error,
+.dropdown-no-accounts {
+  padding: 16px;
+  text-align: center;
+  color: #7f8c8d;
+}
+
+.dropdown-error {
+  color: #e74c3c; /* O culoare roșie pentru eroare */
+}
