@@ -1,0 +1,106 @@
+/* src/components/TransferForms/TransferForms.css */
+.transfer-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem; /* Spațiu între grupurile de câmpuri */
+  margin-top: 1.5rem; /* Spațiu sub titlul modalului */
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem; /* Spațiu între etichetă și input */
+}
+
+.form-field label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #4b5563; /* Gri închis pentru etichete */
+}
+
+.form-field input[type="text"],
+.form-field input[type="number"],
+.form-field input[type="password"], /* Adăugat pentru consistență dacă apar parole */
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 0.75rem 1rem; /* Padding generos */
+  font-size: 0.95rem;
+  border: 1px solid #d1d5db; /* Bordură gri deschis */
+  border-radius: 6px; /* Colțuri rotunjite */
+  background-color: #f9fafb; /* Fundal foarte deschis pentru inputuri */
+  color: #1f2937; /* Text închis pentru inputuri */
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.form-field input[type="text"]:focus,
+.form-field input[type="number"]:focus,
+.form-field input[type="password"]:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  outline: none;
+  border-color: #3b82f6; /* Albastru la focus (similar cu Tailwind blue-500) */
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* Umbră subtilă la focus */
+  background-color: #ffffff;
+}
+
+.form-field textarea {
+  min-height: 80px;
+  resize: vertical; /* Permite redimensionarea verticală */
+}
+
+/* Stil pentru mesajele de eroare de validare (dacă folosești o librărie de formulare) */
+.form-field .error-message {
+  font-size: 0.8rem;
+  color: #ef4444; /* Roșu pentru erori */
+  margin-top: 0.2rem;
+}
+
+.form-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: flex-end; /* Aliniază butoanele la dreapta */
+  gap: 0.75rem; /* Spațiu între butoane */
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb; /* Linie separatoare deasupra acțiunilor */
+}
+
+.btn {
+  padding: 0.7rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-out;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0px);
+}
+
+.btn-primary {
+  background-color: #2563eb; /* Albastru primar */
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8; /* Albastru mai închis la hover */
+}
+
+.btn-secondary {
+  background-color: #e5e7eb; /* Gri deschis */
+  color: #374151; /* Text gri închis */
+  border: 1px solid #d1d5db;
+}
+
+.btn-secondary:hover {
+  background-color: #d1d5db; /* Gri puțin mai închis la hover */
+}

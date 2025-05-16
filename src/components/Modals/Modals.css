@@ -1,0 +1,120 @@
+/* Modals.css */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(26, 54, 93, 0.7); /* Fundal albastru-închis, semi-transparent */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  padding: 1rem; /* Spațiu pentru ecrane mici */
+  animation: fadeInModalOverlay 0.3s ease-out forwards;
+}
+
+.modal-content {
+  background-color: #ffffff;
+  padding: 1.5rem; /* Padding standard */
+  border-radius: 10px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 480px; /* Lățime pentru modalul de selecție tip */
+  position: relative;
+  animation: scaleUpModal 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; /* Efect de pop-up */
+  color: #334155; /* Culoare text default în modal */
+  max-height: 90vh; /* Previne depășirea ecranului pe verticală */
+  overflow-y: auto; /* Adaugă scroll dacă conținutul e prea lung */
+}
+
+.modal-content.large-modal { /* Clasă pentru modalele cu formulare, care pot fi mai late */
+  max-width: 650px;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+  color: #1e293b; /* Albastru-gri închis pentru titluri */
+  text-align: center;
+  font-weight: 600;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: transparent;
+  border: none;
+  font-size: 1.6rem;
+  color: #94a3b8; /* Gri deschis */
+  cursor: pointer;
+  padding: 0.3rem;
+  line-height: 1;
+  transition: color 0.2s ease, transform 0.2s ease;
+  z-index: 10; /* Asigură că e deasupra altor elemente din modal */
+}
+
+.modal-close-btn:hover {
+  color: #475569; /* Gri mai închis */
+  transform: rotate(90deg) scale(1.1);
+}
+
+/* Stiluri pentru lista de opțiuni din TransferTypeSelectionModal */
+.modal-options-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; /* Spațiu între opțiuni */
+}
+
+.modal-option-item {
+  display: flex;
+  align-items: center;
+  padding: 0.9rem 1rem;
+  border: 1px solid #e2e8f0; /* Bordură subtilă */
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, transform 0.15s ease-out;
+  color: #334155; /* Culoare text opțiune */
+}
+
+.modal-option-item:hover {
+  background-color: #f1f5f9; /* Fundal gri foarte deschis la hover */
+  border-color: #cbd5e1;
+  transform: scale(1.02); /* Mic efect de mărire */
+}
+
+.modal-option-icon {
+  font-size: 1.3rem;
+  margin-right: 1rem;
+  color: #38bdf8; /* Culoare accent pentru iconițe */
+  width: 28px; /* Lățime fixă pentru aliniere */
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.modal-option-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+/* Animații */
+@keyframes fadeInModalOverlay {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleUpModal {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
