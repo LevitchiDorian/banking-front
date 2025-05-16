@@ -1,137 +1,91 @@
-.transactions-section {
-  background: #ffffff;
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+/* src/components/RecentTransactions/RecentTransactions.css */
+.recent-transactions-card {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Umbră puțin mai pronunțată */
+  margin-top: 20px;
+}
+
+.recent-transactions-card h3 {
+  margin-top: 0;
+  margin-bottom: 18px; /* Spațiu puțin mai mare */
+  color: #1a202c; /* Un negru mai soft */
+  font-size: 1.25rem; /* Puțin mai mare */
+  font-weight: 600;
 }
 
 .transactions-list {
-  margin-top: 1rem;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 .transaction-item {
-  padding: 1rem;
-  margin: 0.5rem 0;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  border: 1px solid #e5e7eb;
-  background: #fff; /* Asigură fundal alb */
-}
-
-.transaction-item:hover {
-  transform: translateX(5px);
-  background-color: #f8fafc;
-}
-
-.transaction-info {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 15px 5px; /* Mai mult padding vertical */
+  border-bottom: 1px solid #e2e8f0; /* O linie de separare mai subtilă */
+  transition: background-color 0.2s ease-in-out;
+}
+.transaction-item:hover {
+  background-color: #f7fafc; /* Un hover subtil */
 }
 
-/* Stilizare text descriere */
-.transaction-info span:first-child {
-  color: #1e293b; /* Gri-închis */
-  font-weight: 500;
-}
-
-.amount.credit {
-  color: #10b981;
-  font-weight: 600;
-}
-
-.amount.debit {
-  color: #ef4444;
-  font-weight: 600;
-}
-
-.transaction-date {
-  font-size: 0.875rem;
-  color: #64748b; /* Gri-medium */
-  margin-top: 0.3rem;
-}
-
-/* Popup Styles */
-.popup-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  animation: fadeIn 0.3s ease-out;
-}
-
-.transaction-popup {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 500px;
-  position: relative;
-  animation: slideUp 0.3s ease-out;
-  color: #1e293b; /* Culoare text generală */
-}
-
-.close-btn {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #64748b;
-}
-
-.close-btn:hover {
-  color: #475569;
+.transaction-item:last-child {
+  border-bottom: none;
 }
 
 .transaction-details {
-  margin-top: 1rem;
-}
-
-.transactions-section {
-  color: #2d3748; /* Aceeași culoare ca în balance-amount */
-  
-}
-
-.detail-row {
   display: flex;
-  justify-content: space-between;
-  padding: 0.75rem 0;
-  border-bottom: 1px solid #f1f5f9;
+  flex-direction: column;
+  flex-grow: 1; /* Permite detaliilor să ocupe spațiu */
+  margin-right: 10px; /* Spațiu între detalii și sumă */
 }
 
-/* Stilizare text în popup */
-.detail-row span:first-child {
-  color: #64748b; /* Gri-medium */
+.transaction-description {
   font-weight: 500;
+  color: #2d3748;
+  font-size: 0.9rem;
+  line-height: 1.4;
 }
 
-.detail-row span:last-child {
-  color: #1e293b; /* Gri-închis */
-  font-weight: 400;
+.transaction-date {
+  font-size: 0.75rem; /* Puțin mai mic */
+  color: #718096; /* Un gri mai deschis */
+  margin-top: 4px;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.transaction-amount {
+  font-weight: 600;
+  font-size: 0.95rem; /* Aliniat cu descrierea */
+  white-space: nowrap; /* Previne împărțirea sumei pe mai multe rânduri */
 }
 
-@keyframes slideUp {
-  from {
-    transform: translateY(20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.transaction-amount.income {
+  color: #38a169; /* Verde mai intens */
+}
+
+.transaction-amount.income::before {
+  /* content: '+ '; Poți adăuga plusul direct în JSX */
+}
+
+.transaction-amount.expense {
+  color: #e53e3e; /* Roșu mai intens */
+}
+.transaction-amount.expense::before {
+ /* content: '- '; Poți adăuga minusul direct în JSX */
+}
+
+
+.transactions-message {
+  padding: 25px;
+  text-align: center;
+  color: #4a5568;
+  font-style: italic;
+}
+.transactions-message.transactions-error {
+  color: #c53030; /* Roșu pentru eroare */
+  font-weight: 500;
 }

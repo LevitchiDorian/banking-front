@@ -1,21 +1,28 @@
 import { BrowserRouter } from 'react-router-dom';
-import { Routing } from './router';
+import { Routing } from './router'; // Asigură-te că calea este corectă
 import React from 'react';
 import './App.css';
-import { AuthProvider } from './shared/AuthContext/AuthContext';
-import Notification from './shared/Notification/Notification';
-import { Provider as ReduxProvider } from 'react-redux'; // Importă Redux Provider
-import { store } from './app/store'; // Importă store-ul (asigură-te că calea este corectă)
+import { AuthProvider } from './shared/AuthContext/AuthContext'; // Asigură-te că calea este corectă
+import Notification from './shared/Notification/Notification'; // Asigură-te că calea este corectă
+import { SelectedAccountProvider } from './shared/SelectedAccountContext/SelectedAccountContext'; // Asigură-te că calea este corectă
 
+// Importuri pentru Redux
+import { Provider as ReduxProvider } from 'react-redux';
+import { store } from './app/store'; // Asigură-te că calea este corectă
 
 const App: React.FC = () => (
-  <AuthProvider>
-    <ReduxProvider store={store}> {/* Redux Provider înfășoară partea care are nevoie de Redux */}
-      <Notification /> {/* Notification ar putea sau nu să aibă nevoie de Redux */}
-      <BrowserRouter>
-        <Routing /> {/* Routing și copiii săi vor avea acces la Redux */}
-      </BrowserRouter>
-    </ReduxProvider>
-  </AuthProvider>
+  // Ordinea providerilor externi (AuthProvider, ReduxProvider) poate conta
+  // dacă unul depinde de celălalt. De obicei, ReduxProvider este destul de sus.
+  <ReduxProvider store={store}>  {/* Provider-ul Redux la un nivel superior */}
+    <AuthProvider>              {/* Apoi AuthProvider */}
+      <SelectedAccountProvider> {/* Apoi SelectedAccountProvider */}
+        <Notification />
+        <BrowserRouter>
+          <Routing /> {/* Routing și copiii săi vor avea acces la TOATE cele 3 contexte */}
+        </BrowserRouter>
+      </SelectedAccountProvider>
+    </AuthProvider>
+  </ReduxProvider>
 );
+
 export default App;
