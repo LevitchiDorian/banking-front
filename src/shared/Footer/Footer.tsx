@@ -1,11 +1,16 @@
-// import React from 'react';
-import './Footer.css';
-import { FaShieldAlt, FaPhoneAlt, FaEnvelope, FaTwitter, FaLinkedin, FaYoutube } from 'react-icons/fa';
+
+import './Footer.css'; // Asigură-te că ai creat și stilizat acest fișier
+import { 
+  FaShieldAlt, FaPhoneAlt, FaEnvelope, FaTwitter, FaLinkedin, FaYoutube, 
+  FaCreditCard // Iconiță nouă pentru PCI DSS
+} from 'react-icons/fa';
+import { BsShieldLock } from 'react-icons/bs'; // Iconiță nouă pentru SSL
 
 const Footer = () => {
   return (
     <footer className="bank-footer">
       <div className="footer-grid">
+        {/* ... secțiunile Contact, Services, Follow Us rămân la fel ... */}
         <div className="footer-section">
           <h4 className="footer-heading"><FaPhoneAlt className="footer-icon" /> Contact</h4>
           <div className="footer-content">
@@ -24,9 +29,16 @@ const Footer = () => {
           <div className="footer-content">
             <p className="footer-item">ISO 27001 Certified</p>
             <p className="footer-item">256-bit Encryption</p>
-            <div className="security-badges">
-              <img src="/ssl-badge.svg" alt="SSL Secured" className="security-badge" />
-              <img src="/pci-dss.svg" alt="PCI DSS Compliant" className="security-badge" />
+            {/* Secțiunea de badge-uri modificată */}
+            <div className="security-badges-container"> {/* Un nou container pentru layout */}
+              <div className="security-badge-item">
+                <BsShieldLock className="security-badge-icon" />
+                <span className="security-badge-text">SSL Secured</span>
+              </div>
+              <div className="security-badge-item">
+                <FaCreditCard className="security-badge-icon" />
+                <span className="security-badge-text">PCI DSS Compliant</span>
+              </div>
             </div>
           </div>
         </div>
@@ -44,14 +56,15 @@ const Footer = () => {
         <div className="footer-section">
           <h4 className="footer-heading">Follow Us</h4>
           <div className="social-links">
-            <a href="https://twitter.com" className="social-link"><FaTwitter /></a>
-            <a href="https://linkedin.com" className="social-link"><FaLinkedin /></a>
-            <a href="https://youtube.com" className="social-link"><FaYoutube /></a>
+            <a href="https://twitter.com" aria-label="Twitter" className="social-link"><FaTwitter /></a>
+            <a href="https://linkedin.com" aria-label="LinkedIn" className="social-link"><FaLinkedin /></a>
+            <a href="https://youtube.com" aria-label="YouTube" className="social-link"><FaYoutube /></a>
           </div>
         </div>
       </div>
 
       <div className="footer-legal">
+        { /* ... secțiunea legală rămâne la fel ... */ }
         <div className="legal-links">
           <a href="/privacy">Privacy Policy</a>
           <a href="/terms">Terms of Service</a>
@@ -59,7 +72,7 @@ const Footer = () => {
           <a href="/accessibility">Accessibility</a>
         </div>
         <div className="copyright">
-          © 2024 Digital Banking. All rights reserved.<br />
+          © {new Date().getFullYear()} Digital Banking. All rights reserved.<br />
           Member FDIC. Equal Housing Lender.
         </div>
       </div>

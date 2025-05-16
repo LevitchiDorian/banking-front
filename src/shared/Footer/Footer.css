@@ -1,144 +1,194 @@
 /* Footer.css */
+:root {
+  --footer-bg-start: #0f172a; /* Albastru-negru profund */
+  --footer-bg-end: #1e293b;   /* Albastru-gri închis */
+  --footer-text-primary: #e2e8f0; /* Alb-gri deschis */
+  --footer-text-secondary: #94a3b8; /* Gri mediu */
+  --footer-accent: #38bdf8; /* Albastru cyan vibrant */
+  --footer-accent-hover: #0ea5e9; /* Cyan mai intens pentru hover */
+  --footer-border-color: rgba(100, 116, 139, 0.15); /* Bordură mai subtilă */
+  --transition-duration: 0.3s; /* Viteză de tranziție puțin mai rapidă */
+  --transition-easing: ease-in-out; /* Easing mai fluid */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
 .bank-footer {
-  background: linear-gradient(145deg, #1A365D 0%, #15315A 100%);
-  color: #ffffff;
-  padding: 4rem 2rem 2rem;
+  background: linear-gradient(135deg, var(--footer-bg-start) 0%, var(--footer-bg-end) 100%);
+  color: var(--footer-text-primary);
+  padding: 4.5rem 2rem 2rem; /* Ajustat padding-ul */
   position: relative;
   overflow: hidden;
-  animation: footerEntrance 0.8s ease-out;
+  border-top: 1px solid var(--footer-border-color);
+  font-family: var(--font-primary);
+  animation: footerEntrance 0.7s var(--transition-easing) forwards;
 }
 
 .footer-grid {
-  max-width: 1200px;
+  max-width: 1280px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 2rem;
-  padding-bottom: 2rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Minwidth puțin mai mic pentru flexibilitate */
+  gap: 2rem 3rem; /* Gap diferit pentru rând și coloană */
+  padding-bottom: 2.5rem;
+  position: relative;
+  z-index: 1;
 }
 
 .footer-section {
-  padding: 1rem;
-  border-left: 2px solid rgba(255, 255, 255, 0.1);
-  transition: transform 0.3s ease;
+  padding: 0.5rem 0; /* Padding vertical pentru spațiere internă */
+  position: relative;
 }
 
-.footer-section:hover {
-  transform: translateY(-5px);
+/* Linii separatoare elegante pentru desktop */
+@media (min-width: 769px) {
+  .footer-section:not(:first-child) { /* Adaugă linie la stânga, exceptând prima secțiune */
+    padding-left: 2.5rem;
+    border-left: 1px solid var(--footer-border-color);
+  }
 }
 
 .footer-heading {
-  color: #63B3ED;
-  margin-bottom: 1.5rem;
-  font-size: 1.2rem;
+  color: var(--footer-accent);
+  margin-top: 0; /* Eliminat margin-top dacă padding-ul secțiunii e suficient */
+  margin-bottom: 1.25rem;
+  font-size: 1.15rem; /* Mărime font puțin mai mare */
+  font-weight: 600;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.7rem;
 }
 
 .footer-icon {
-  font-size: 1.4rem;
-  color: #63B3ED;
+  font-size: 1.25rem; /* Aliniat cu font-size-ul heading-ului */
+  color: var(--footer-accent);
+  transition: transform var(--transition-duration) var(--transition-easing);
+}
+
+.footer-heading:hover .footer-icon {
+  transform: scale(1.15) rotate(-3deg); /* Animație mai subtilă */
 }
 
 .footer-content {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 0.75rem; /* Spațiu redus între itemi pentru un look mai compact */
+}
+
+/* Stil comun pentru toate link-urile din footer-content */
+.footer-content a,
+.footer-item a { /* Asigură că și link-urile din p-uri sunt stilizate */
+  color: var(--footer-text-secondary);
+  text-decoration: none;
+  transition: color var(--transition-duration) var(--transition-easing),
+              padding-left var(--transition-duration) var(--transition-easing);
+}
+
+.footer-content a:hover,
+.footer-item a:hover {
+  color: var(--footer-accent-hover);
+  padding-left: 4px; /* Mică indentare la hover */
 }
 
 .footer-item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  color: #CBD5E0;
-  transition: color 0.3s ease;
+  gap: 0.6rem;
+  color: var(--footer-text-primary); /* Textul non-link poate fi mai deschis */
+  font-size: 0.9rem;
 }
 
-.footer-item:hover {
-  color: #63B3ED;
+.footer-item .icon-spacing {
+  color: var(--footer-accent); /* Iconița de email să aibă culoarea de accent */
+  margin-right: 0.3rem;
+  font-size: 1em; /* Mărime relativă la textul părintelui */
+  display: inline-flex;
+  align-items: center;
 }
 
-.service-link {
-  color: #A0AEC0;
-  text-decoration: none;
-  padding: 0.3rem 0;
-  position: relative;
-  transition: color 0.3s ease;
+.service-link { /* Acestea sunt direct tag-uri <a> */
+  display: block; /* Pentru ca padding-left la hover să funcționeze corect */
+  padding: 0.2rem 0; /* Puțin spațiu vertical */
+  font-size: 0.9rem;
 }
 
-.service-link::before {
-  content: '';
-  position: absolute;
-  width: 0;
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  background-color: #63B3ED;
-  transition: width 0.3s ease;
-}
-
-.service-link:hover {
-  color: #63B3ED;
-}
-
-.service-link:hover::before {
-  width: 100%;
-}
-
-.security-badges {
+/* Secțiunea Security Badges */
+.security-badges-container {
   display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.8rem; /* Apropiat puțin de textul de deasupra */
 }
 
-.security-badge {
-  width: 80px;
-  height: auto;
-  filter: grayscale(100%);
-  transition: filter 0.3s ease;
+.security-badge-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--footer-text-secondary);
+  font-size: 0.85rem; /* Puțin mai mic pentru badge-uri */
+  transition: color var(--transition-duration) var(--transition-easing);
 }
 
-.security-badge:hover {
-  filter: grayscale(0%);
+.security-badge-item:hover {
+  color: var(--footer-accent);
 }
+
+.security-badge-icon {
+  font-size: 1.2rem; /* Mărime ajustată pentru badge-uri */
+  color: var(--footer-accent);
+  flex-shrink: 0;
+}
+
+.security-badge-text {
+  font-weight: 400; /* Text normal pentru badge */
+}
+
 
 .social-links {
   display: flex;
-  gap: 1.5rem;
-  margin-top: 1rem;
+  gap: 1rem; /* Spațiu redus pentru un look mai compact */
+  margin-top: 0.5rem;
 }
 
 .social-link {
-  color: #A0AEC0;
-  font-size: 1.5rem;
-  transition: all 0.3s ease;
+  color: var(--footer-text-secondary);
+  font-size: 1.4rem; /* Mărime iconițe sociale */
+  transition: color var(--transition-duration) var(--transition-easing), 
+              transform var(--transition-duration) var(--transition-easing);
+  padding: 0.3rem; 
+  border-radius: 50%;
 }
 
 .social-link:hover {
-  color: #63B3ED;
-  transform: scale(1.2);
+  color: var(--footer-accent-hover);
+  transform: translateY(-2px) scale(1.15); /* Efect puțin mai pronunțat */
+  /* background-color: rgba(56, 189, 248, 0.1); Scoatem fundalul pentru un look mai curat */
 }
 
+/* Secțiunea Legală */
 .footer-legal {
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--footer-border-color);
   margin-top: 3rem;
   padding-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
 }
 
 .legal-links {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
+  gap: 1rem 1.5rem; /* Spațiere ajustată */
 }
 
 .legal-links a {
-  color: #A0AEC0;
+  color: var(--footer-text-secondary); /* Culoare consistentă pentru linkuri */
   text-decoration: none;
-  font-size: 0.9rem;
-  position: relative;
+  font-size: 0.8rem;
+  padding-bottom: 2px; /* Spațiu pentru sublinierea hover */
+  position: relative; /* Pentru pseudo-elementul ::after */
+  transition: color var(--transition-duration) var(--transition-easing);
 }
 
 .legal-links a::after {
@@ -146,10 +196,14 @@
   position: absolute;
   width: 0;
   height: 1px;
-  background: #63B3ED;
-  bottom: -2px;
+  background: var(--footer-accent-hover);
+  bottom: 0;
   left: 0;
-  transition: width 0.3s ease;
+  transition: width var(--transition-duration) var(--transition-easing);
+}
+
+.legal-links a:hover {
+  color: var(--footer-accent-hover);
 }
 
 .legal-links a:hover::after {
@@ -158,15 +212,16 @@
 
 .copyright {
   text-align: center;
-  color: #718096;
-  font-size: 0.85rem;
+  color: #718096; /* Un gri mai închis, lizibil */
+  font-size: 0.75rem; /* Puțin mai mic */
   line-height: 1.5;
 }
 
+/* Animația de intrare */
 @keyframes footerEntrance {
   from {
-    opacity: 0;
-    transform: translateY(20px);
+    opacity: 0.2; /* Începe puțin vizibil */
+    transform: translateY(25px);
   }
   to {
     opacity: 1;
@@ -174,20 +229,43 @@
   }
 }
 
+/* Ajustări pentru ecrane mai mici */
 @media (max-width: 768px) {
+  .bank-footer {
+    padding: 3.5rem 1.5rem 1.5rem;
+  }
   .footer-grid {
     grid-template-columns: 1fr;
+    gap: 2rem; /* Gap uniform pe mobil */
   }
 
   .footer-section {
     border-left: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-left: 0; /* Fără padding stânga pe mobil */
+    padding-right: 0;
     padding-bottom: 2rem;
+    border-bottom: 1px solid var(--footer-border-color);
+  }
+  .footer-section:last-child {
+    border-bottom: none;
+    padding-bottom: 0.5rem; /* Mai puțin padding pentru ultima secțiune */
   }
 
+  .footer-heading {
+    font-size: 1.1rem; /* Consistență mărime heading */
+  }
+  .footer-icon, .security-badge-icon {
+    font-size: 1.25rem;
+  }
+  .social-link {
+    font-size: 1.5rem; /* Mărim puțin iconițele sociale pe mobil */
+  }
   .legal-links {
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 0.8rem;
+  }
+  .copyright {
+    font-size: 0.7rem;
   }
 }
