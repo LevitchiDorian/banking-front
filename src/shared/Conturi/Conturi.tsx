@@ -3,12 +3,7 @@ import { useGetUserDbAccountsQuery } from '../../store/bankingApi'; // Ajusteaz�
 import './Conturi.css';
 import { IDbAccountResponseDTO } from '../../entities/IDbAccountResponseDTO'; // Importă interfața
 
-// Nu mai avem nevoie de tipul Account local, vom folosi IDbAccountResponseDTO
-// type Account = {
-//   id: number;
-//   number: string;
-//   balance: string;
-// };
+
 
 const Conturi = () => {
   const [showDropdown, setShowDropdown] = useState(false);
@@ -16,19 +11,13 @@ const Conturi = () => {
 
   // Utilizează hook-ul RTK Query pentru a prelua conturile
   const { 
-    data: userAccounts, // Redenumim 'data' în 'userAccounts' pentru claritate
+    data: userAccounts, 
     isLoading, 
     isError, 
     // error 
-  } = useGetUserDbAccountsQuery(); // Nu necesită argumente conform definiției din bankingApi.ts
+  } = useGetUserDbAccountsQuery(); 
 
-  // Datele statice sunt eliminate, vom folosi userAccounts
-  // const accounts: Account[] = [
-  //   { id: 1, number: 'MD49AAAA1B31007593840000', balance: '2,450.00 LEI' },
-  //   { id: 2, number: 'MD49AAAA1B31007593840001', balance: '1,230.50 EUR' },
-  //   { id: 3, number: 'MD49AAAA1B31007593840002', balance: '850.00 USD' }
-  // ];
-
+ 
   const handleClickOutside = (event: MouseEvent) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
       setShowDropdown(false);
@@ -69,7 +58,7 @@ const Conturi = () => {
           {!isLoading && !isError && userAccounts && userAccounts.length > 0 && (
             userAccounts.map((account: IDbAccountResponseDTO) => (
               <div key={account.id} className="account-item">
-                <div className="account-number">{account.accountNumber}</div> {/* Folosim accountNumber din DTO */}
+                <div className="account-type">{account.accountTypeName}</div> {/* Folosim accountNumber din DTO */}
                 <div className="account-balance">
                   {formatBalance(account.balance, account.currency)} {/* Folosim balance și currency din DTO */}
                 </div>
