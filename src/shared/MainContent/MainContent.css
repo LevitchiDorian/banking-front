@@ -179,6 +179,12 @@
   font-size: 1.5rem;
 }
 
+body.modal-open-blur > #root > div:first-child { /* Targetează containerul principal al aplicației tale */
+  filter: blur(4px) brightness(0.9); /* Ajustează valorile după preferințe */
+  transition: filter 0.3s ease-out;
+  /* pointer-events: none; Nu este necesar dacă modalele au overlay corect */
+}
+
 /* Animations */
 @keyframes fadeIn {
   from {

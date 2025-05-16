@@ -1,0 +1,75 @@
+/* TransferOptions.css */
+.transfer-options-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.transfer-option-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1.75rem;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.07);
+  display: flex;
+  align-items: center; /* Aliniază iconița, conținutul și săgeata pe verticală */
+  gap: 1.5rem;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-left: 5px solid transparent; /* Border colorat specific tipului */
+}
+
+.transfer-option-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Culori specifice pentru border-left */
+.transfer-option-own { border-left-color: #38bdf8; /* Cyan */ }
+.transfer-option-intrabank { border-left-color: #48bb78; /* Verde */ }
+.transfer-option-domestic { border-left-color: #f59e0b; /* Amber/Portocaliu */ }
+
+.transfer-option-icon-wrapper {
+  font-size: 2.5rem; /* Mărime iconiță */
+  padding: 0.8rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0; /* Previne micșorarea iconiței */
+}
+
+.transfer-option-own .transfer-option-icon-wrapper { background-color: rgba(56, 189, 248, 0.1); color: #0ea5e9; }
+.transfer-option-intrabank .transfer-option-icon-wrapper { background-color: rgba(72, 187, 120, 0.1); color: #38a169; }
+.transfer-option-domestic .transfer-option-icon-wrapper { background-color: rgba(245, 158, 11, 0.1); color: #d97706; }
+
+
+.transfer-option-content {
+  flex-grow: 1; /* Permite conținutului să umple spațiul */
+}
+
+.transfer-option-content h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  color: #1e293b; /* Gri închis pentru titlu */
+  font-weight: 600;
+}
+
+.transfer-option-content p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #64748b; /* Gri mediu pentru descriere */
+  line-height: 1.5;
+}
+
+.transfer-option-action {
+  font-size: 1.2rem;
+  color: #94a3b8; /* Gri deschis pentru săgeată */
+  transition: transform 0.3s ease;
+}
+
+.transfer-option-card:hover .transfer-option-action {
+  transform: translateX(5px);
+  color: #38bdf8; /* Culoarea de accent la hover pe card */
+}

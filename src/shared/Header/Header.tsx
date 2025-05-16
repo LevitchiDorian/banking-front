@@ -1,5 +1,5 @@
 // src/components/Header/Header.tsx
-import React, { useState, useEffect } from 'react'; // Importă useState și useEffect
+import { useState, useEffect } from 'react'; // Importă useState și useEffect
 import { useNavigate, Link } from 'react-router-dom';
 import { AppRoutes } from '../../app/Router';
 import { useAuth } from '../../context/AuthContext/AuthContext';
