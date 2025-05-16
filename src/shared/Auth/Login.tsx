@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { AppRoutes } from '../../app/Router'; // Asigură-te că această cale este corectă
-import { useAuth } from '../AuthContext/AuthContext'; // Asigură-te că această cale este corectă
+import { useAuth } from '../../context/AuthContext/AuthContext'; // Asigură-te că această cale este corectă
 import { useLoginUserMutation } from '../../store/bankingApi'; // IMPORTĂ MUTAȚIA RTK QUERY
 import './AuthPages.css';
 import { IUserDTO } from '../../entities/IUserDTO'; // Importă interfața dacă nu o ai deja global

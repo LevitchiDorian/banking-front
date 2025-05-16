@@ -1,7 +1,7 @@
 // src/components/MainContent/MainContent.tsx
 import './MainContent.css';
 import RecentTransactions from '../RecentTransactions/RecentTransactions';
-import { useSelectedAccount } from '../SelectedAccountContext/SelectedAccountContext';
+import { useSelectedAccount } from '../../context/SelectedAccountContext/SelectedAccountContext';
 import { useGetUserDbAccountsQuery } from '../../store/bankingApi';
 import { IDbAccountResponseDTO } from '../../entities/IDbAccountResponseDTO';
 

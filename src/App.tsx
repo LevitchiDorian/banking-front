@@ -2,9 +2,9 @@ import { BrowserRouter } from 'react-router-dom';
 import { Routing } from './router'; // Asigură-te că calea este corectă
 import React from 'react';
 import './App.css';
-import { AuthProvider } from './shared/AuthContext/AuthContext'; // Asigură-te că calea este corectă
+import { AuthProvider } from './context/AuthContext/AuthContext'; // Asigură-te că calea este corectă
 import Notification from './shared/Notification/Notification'; // Asigură-te că calea este corectă
-import { SelectedAccountProvider } from './shared/SelectedAccountContext/SelectedAccountContext'; // Asigură-te că calea este corectă
+import { SelectedAccountProvider } from './context/SelectedAccountContext/SelectedAccountContext'; // Asigură-te că calea este corectă
 
 // Importuri pentru Redux
 import { Provider as ReduxProvider } from 'react-redux';

@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useGetUserDbAccountsQuery } from '../../store/bankingApi';
 import './Conturi.css';
 import { IDbAccountResponseDTO } from '../../entities/IDbAccountResponseDTO';
-import { useSelectedAccount } from '../SelectedAccountContext/SelectedAccountContext'; // Importă contextul pentru contul selectat
+import { useSelectedAccount } from '../../context/SelectedAccountContext/SelectedAccountContext'; // Importă contextul pentru contul selectat
 
 const Conturi = () => {
   const [showDropdown, setShowDropdown] = useState(false);

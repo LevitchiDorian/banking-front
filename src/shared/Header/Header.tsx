@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react'; // Importă useState și useEffect
 import { useNavigate, Link } from 'react-router-dom';
 import { AppRoutes } from '../../app/Router';
-import { useAuth } from '../../shared/AuthContext/AuthContext';
-import { useSelectedAccount } from '../SelectedAccountContext/SelectedAccountContext'; // Importă contextul pentru contul selectat
+import { useAuth } from '../../context/AuthContext/AuthContext';
+import { useSelectedAccount } from '../../context/SelectedAccountContext/SelectedAccountContext'; // Importă contextul pentru contul selectat
 import './Header.css';
 import Logo from '../../Logo.png';
 import Conturi from '../Conturi/Conturi';
