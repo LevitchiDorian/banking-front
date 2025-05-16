@@ -1,93 +1,110 @@
-import React, { useState } from 'react';
-import './RecentTransactions.css';
+// src/components/RecentTransactions/RecentTransactions.tsx
+import React from 'react';
+import { useGetAllUserTransactionsQuery, useGetTransactionsForUserAccountQuery } from '../../store/bankingApi';
+import { IDbTransactionResponseDTO } from '../../entities/IDbTransactionResponseDTO';
+import './RecentTransactions.css'; // Asigură-te că ai creat și stilizat acest fișier
 
-interface Transaction {
-  id: number;
-  date: string;
-  description: string;
-  amount: number;
-  type: 'credit' | 'debit';
+interface RecentTransactionsProps {
+  selectedAccountNumber?: string | null;
+  selectedAccountCurrency?: string | null; // Adăugăm moneda contului selectat
 }
 
-interface TransactionPopupProps {
-  transaction: Transaction;
-  onClose: () => void;
-}
+const RecentTransactions = ({ selectedAccountNumber, selectedAccountCurrency }: RecentTransactionsProps) => {
+  const skipGetAll = !!selectedAccountNumber;
+  const skipGetForAccount = !selectedAccountNumber;
 
-const TransactionPopup: React.FC<TransactionPopupProps> = ({ transaction, onClose }) => (
-  <div className="popup-overlay" onClick={onClose}>
-    <div className="transaction-popup" onClick={(e) => e.stopPropagation()}>
-      <button className="close-btn" onClick={onClose}>&times;</button>
-      <h3>Detalii Tranzacție</h3>
-      <div className="transaction-details">
-        <div className="detail-row">
-          <span>Data:</span>
-          <span>{new Date(transaction.date).toLocaleDateString()}</span>
-        </div>
-        <div className="detail-row">
-          <span>Descriere:</span>
-          <span>{transaction.description}</span>
-        </div>
-        <div className="detail-row">
-          <span>Suma:</span>
-          <span className={`amount ${transaction.type}`}>
-            {transaction.type === 'credit' ? '+' : '-'}${Math.abs(transaction.amount).toFixed(2)}
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-);
+  const { 
+    data: allTransactions, 
+    isLoading: isLoadingAll, 
+    isError: isErrorAll,
+  } = useGetAllUserTransactionsQuery(undefined, { skip: skipGetAll });
+  
+  const { 
+    data: accountTransactions, 
+    isLoading: isLoadingAccount, 
+    isError: isErrorAccount,
+  } = useGetTransactionsForUserAccountQuery(selectedAccountNumber!, { skip: skipGetForAccount }); 
 
-const RecentTransactions = () => {
-  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+  const isLoading = isLoadingAll || isLoadingAccount;
+  const isError = isErrorAll || isErrorAccount;
+  const transactionsToDisplay: IDbTransactionResponseDTO[] | undefined = selectedAccountNumber ? accountTransactions : allTransactions;
 
-  const transactions: Transaction[] = [
-    {
-      id: 1,
-      date: '2024-03-15',
-      description: 'Salary Deposit',
-      amount: 4500.00,
-      type: 'credit'
-    },
-    {
-      id: 2,
-      date: '2024-03-14',
-      description: 'Utility Payment',
-      amount: 230.50,
-      type: 'debit'
+  if (isLoading) return <div className="transactions-message">Se încarcă tranzacțiile...</div>;
+  if (isError) return <div className="transactions-message transactions-error">Eroare la încărcarea tranzacțiilor.</div>;
+  if (!transactionsToDisplay || transactionsToDisplay.length === 0) {
+    return <div className="transactions-message">Nu există tranzacții recente.</div>;
+  }
+
+  const getTransactionTypeAndPeer = (tx: IDbTransactionResponseDTO) => {
+    let type: 'income' | 'expense' = 'expense'; // Presupunem cheltuială default
+    let peerAccountDisplay = "Extern"; // Contul "celălalt" din tranzacție
+
+    // Dacă un cont specific este selectat, personalizăm descrierea
+    if (selectedAccountNumber) {
+      if (tx.toAccountNumber === selectedAccountNumber) {
+        type = 'income';
+        peerAccountDisplay = tx.fromAccountNumber || "Sursă Externă";
+      } else if (tx.fromAccountNumber === selectedAccountNumber) {
+        type = 'expense';
+        peerAccountDisplay = tx.toAccountNumber || "Destinație Externă";
+      } else {
+        // Tranzacție care nu implică direct contul selectat, dar apare în lista lui (puțin probabil cu filtrarea curentă)
+        // Sau o tranzacție internă între alte conturi ale userului (dacă selectedAccountNumber e null)
+        // Pentru "Toate conturile", afișăm detaliile așa cum sunt.
+        peerAccountDisplay = tx.toAccountNumber ? `către ${tx.toAccountNumber}` : (tx.fromAccountNumber ? `de la ${tx.fromAccountNumber}` : "Tranzacție internă/externă");
+        if (tx.transactionType === 'DEPOSIT') type = 'income';
+        // Poți adăuga mai multă logică aici bazată pe tx.transactionType dacă selectedAccountNumber este null
+      }
+    } else { // Pentru "Toate Tranzacțiile"
+        if (tx.transactionType === 'DEPOSIT' || (tx.toAccountNumber && !tx.fromAccountNumber)) {
+            type = 'income';
+            peerAccountDisplay = tx.fromAccountNumber || "Sursă Externă";
+        } else if (tx.transactionType === 'WITHDRAWAL' || (tx.fromAccountNumber && !tx.toAccountNumber)) {
+            type = 'expense';
+            peerAccountDisplay = tx.toAccountNumber || "Destinație Externă";
+        } else if (tx.fromAccountNumber && tx.toAccountNumber) { // Transfer între conturi (posibil proprii)
+            // Aici ai putea verifica dacă sunt conturi ale userului pentru a le marca diferit
+            type = 'expense'; // Sau o clasă neutră 'transfer'
+            peerAccountDisplay = `Transfer către ${tx.toAccountNumber}`;
+        }
     }
-  ];
+
+
+    const description = tx.description || (type === 'income' ? `Încasare de la ${peerAccountDisplay}` : `Plată către ${peerAccountDisplay}`);
+    
+    return { type, description };
+  };
 
   return (
-    <section className="transactions-section">
-      <h3>Recent Transactions</h3>
-      <div className="transactions-list">
-        {transactions.map((transaction) => (
-          <div
-            key={transaction.id}
-            className={`transaction-item ${transaction.type}`}
-            onClick={() => setSelectedTransaction(transaction)}
-          >
-            <div className="transaction-info">
-              <span>{transaction.description}</span>
-              <span className={`amount ${transaction.type}`}>
-                {transaction.type === 'credit' ? '+' : '-'}${Math.abs(transaction.amount).toFixed(2)}
+    <section className="recent-transactions-card">
+      <h3>
+        {selectedAccountNumber 
+          ? `Tranzacții Recente Cont ${selectedAccountNumber}` 
+          : "Tranzacții Recente (Toate Conturile)"}
+      </h3>
+      <ul className="transactions-list">
+        {transactionsToDisplay.map((tx: IDbTransactionResponseDTO) => {
+          const { type, description } = getTransactionTypeAndPeer(tx);
+          const amountPrefix = type === 'income' ? '+' : '-';
+          // Afișăm moneda doar dacă un cont specific este selectat și avem moneda lui
+          const currencyDisplay = selectedAccountNumber && selectedAccountCurrency ? selectedAccountCurrency : "";
+          
+          return (
+            <li key={tx.id} className={`transaction-item ${type}`}>
+              <div className="transaction-details">
+                <span className="transaction-description">{description}</span>
+                <span className="transaction-date">{new Date(tx.timestamp).toLocaleDateString('ro-RO')}</span>
+              </div>
+              <span className={`transaction-amount ${type}`}>
+                {amountPrefix}
+                {tx.amount.toLocaleString('ro-MD', {minimumFractionDigits:2, maximumFractionDigits:2})}
+                {/* Afișăm moneda doar dacă este disponibilă (pentru cont selectat) */}
+                {currencyDisplay && ` ${currencyDisplay}`}
               </span>
-            </div>
-            <span className="transaction-date">
-              {new Date(transaction.date).toLocaleDateString()}
-            </span>
-          </div>
-        ))}
-      </div>
-
-      {selectedTransaction && (
-        <TransactionPopup
-          transaction={selectedTransaction}
-          onClose={() => setSelectedTransaction(null)}
-        />
-      )}
+            </li>
+          );
+        })}
+      </ul>
     </section>
   );
 };
