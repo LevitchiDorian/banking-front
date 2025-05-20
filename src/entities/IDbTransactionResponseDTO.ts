@@ -6,4 +6,5 @@ export interface IDbTransactionResponseDTO {
   description?: string | null;
   timestamp: string; // LocalDateTime va fi un string (format ISO 8601)
   transactionType?: string | null;
+  currency: string;
 }

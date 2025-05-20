@@ -1,91 +1,217 @@
 /* src/components/RecentTransactions/RecentTransactions.css */
+:root {
+  --text-primary-dark: #1a202c;
+  --text-secondary-dark: #4a5568;
+  --text-light: #718096;
+  --surface-background: #ffffff;
+  --surface-hover: #f8fafc;
+  --border-light: #eef2f7;
+  
+  --color-income: #16a34a;
+  --color-income-bg: rgba(22, 163, 74, 0.08);
+  
+  --color-expense: #dc2626;
+  --color-expense-bg: rgba(220, 38, 38, 0.08);
+
+  --color-internal: #2563eb; /* Am schimbat cu un albastru mai intens */
+  --color-internal-bg: rgba(37, 99, 235, 0.08);
+
+  --color-neutral-text: #374151;
+  --color-neutral-bg: rgba(100, 116, 139, 0.08);
+
+  --border-radius-card: 10px;
+  --box-shadow-card: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
 .recent-transactions-card {
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Umbră puțin mai pronunțată */
-  margin-top: 20px;
+  background-color: var(--surface-background);
+  padding: 20px 22px;
+  border-radius: var(--border-radius-card);
+  box-shadow: var(--box-shadow-card);
+  /* margin-top: 0; Eliminăm margin-top dacă e controlat de grid-gap din MainContent.css */
+  height: 100%; 
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; 
 }
 
 .recent-transactions-card h3 {
   margin-top: 0;
-  margin-bottom: 18px; /* Spațiu puțin mai mare */
-  color: #1a202c; /* Un negru mai soft */
-  font-size: 1.25rem; /* Puțin mai mare */
+  margin-bottom: 12px; /* Redus spațiul sub titlu puțin */
+  color: var(--text-primary-dark);
+  font-size: 1.15rem;
   font-weight: 600;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-light);
+  flex-shrink: 0; 
 }
 
 .transactions-list {
   list-style-type: none;
   padding: 0;
   margin: 0;
+  flex-grow: 1; /* Permite listei să umple spațiul vertical disponibil */
+  /* overflow-y: auto; Eliminăm scroll-ul explicit de aici dacă 3 itemi încap */
+  display: flex; /* Adăugăm flex pentru a distribui spațiul între itemi dacă e nevoie */
+  flex-direction: column;
+  /* justify-content: space-around;  Opțional: distribuie spațiul dacă sunt mai puțini de 3 itemi */
 }
 
 .transaction-item {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 15px 5px; /* Mai mult padding vertical */
-  border-bottom: 1px solid #e2e8f0; /* O linie de separare mai subtilă */
+  padding: 14px 4px; 
+  border-bottom: 1px solid var(--border-light);
   transition: background-color 0.2s ease-in-out;
+  cursor: pointer;
+  /* min-height: 60px; Eliminăm min-height pentru a lăsa conținutul să dicteze */
+  flex-grow: 1; /* Permite fiecărui item să se extindă dacă sunt mai puțini de 3 și lista are justify-content */
 }
+
 .transaction-item:hover {
-  background-color: #f7fafc; /* Un hover subtil */
+  background-color: var(--surface-hover);
+  /* transform: scale(1.01); Scoatem transform pentru a evita probleme de overflow */
 }
 
 .transaction-item:last-child {
   border-bottom: none;
 }
 
+.transaction-type-icon {
+  font-size: 1.05rem;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  flex-shrink: 0;
+  color: white;
+}
+
+.transaction-income .transaction-type-icon { background-color: var(--color-income); }
+.transaction-expense .transaction-type-icon { background-color: var(--color-expense); }
+.transaction-internal .transaction-type-icon { background-color: var(--color-internal); }
+.transaction-neutral .transaction-type-icon { background-color: var(--color-neutral-bg); color: var(--text-secondary-dark); }
+
 .transaction-details {
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Permite detaliilor să ocupe spațiu */
-  margin-right: 10px; /* Spațiu între detalii și sumă */
+  justify-content: center;
+  flex-grow: 1;
+  margin-right: 8px;
+  overflow: hidden;
+  gap: 1px; /* Spațiu foarte mic */
 }
 
 .transaction-description {
   font-weight: 500;
-  color: #2d3748;
-  font-size: 0.9rem;
-  line-height: 1.4;
+  color: var(--text-secondary-dark);
+  font-size: 0.875rem;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .transaction-date {
-  font-size: 0.75rem; /* Puțin mai mic */
-  color: #718096; /* Un gri mai deschis */
-  margin-top: 4px;
+  font-size: 0.7rem;
+  color: var(--text-light);
+}
+
+.transaction-amount-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: auto;
+  padding-left: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .transaction-amount {
   font-weight: 600;
-  font-size: 0.95rem; /* Aliniat cu descrierea */
-  white-space: nowrap; /* Previne împărțirea sumei pe mai multe rânduri */
+  font-size: 0.9rem; /* Mărime font sumă */
+}
+.transaction-currency {
+    font-size: 0.7rem;
+    color: var(--text-light);
+    margin-top: 1px;
 }
 
-.transaction-amount.income {
-  color: #38a169; /* Verde mai intens */
-}
-
-.transaction-amount.income::before {
-  /* content: '+ '; Poți adăuga plusul direct în JSX */
-}
-
-.transaction-amount.expense {
-  color: #e53e3e; /* Roșu mai intens */
-}
-.transaction-amount.expense::before {
- /* content: '- '; Poți adăuga minusul direct în JSX */
-}
-
+.transaction-amount.amount-income { color: var(--color-income); }
+.transaction-amount.amount-expense { color: var(--color-expense); }
+.transaction-amount.amount-internal { color: var(--color-internal); }
+.transaction-amount.amount-neutral { color: var(--text-secondary-dark); }
 
 .transactions-message {
-  padding: 25px;
+  padding: 25px 15px;
   text-align: center;
-  color: #4a5568;
+  color: var(--text-secondary-dark);
   font-style: italic;
+  font-size: 0.9rem;
+  flex-grow: 1; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+.transactions-message.loading::before {
+    content: ''; display: inline-block; width: 16px; height: 16px;
+    border: 2px solid var(--text-light); border-top-color: var(--color-internal);
+    border-radius: 50%; animation: spin 0.8s linear infinite;
+    margin-right: 8px; vertical-align: middle;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
 .transactions-message.transactions-error {
-  color: #c53030; /* Roșu pentru eroare */
+  color: var(--color-expense);
   font-weight: 500;
+  font-style: normal;
+}
+
+/* Stiluri pentru Modalul de Detalii Tranzacție (rămân la fel) */
+.transaction-detail-modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(15, 23, 42, 0.65); 
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1100; padding: 1rem; animation: fadeInModalOverlay 0.25s ease-out forwards;
+}
+.transaction-detail-modal-content {
+  background-color: var(--surface-background); padding: 20px 25px; 
+  border-radius: var(--border-radius-card); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  width: 100%; max-width: 450px; position: relative;
+  animation: scaleUpModal 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  color: var(--text-secondary-dark, #4a5568); max-height: 85vh; overflow-y: auto;
+  display: flex; flex-direction: column;
+}
+.transaction-detail-modal-content h4 {
+  margin-top: 0; margin-bottom: 1rem; font-size: 1.15rem;
+  color: var(--text-primary-dark, #1a202c); font-weight: 600; text-align: center;
+  padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-light, #eef2f7);
+}
+.transaction-detail-modal-close-btn {
+  position: absolute; top: 10px; right: 10px; background: transparent; border: none;
+  font-size: 1.5rem; color: #9ca3af; cursor: pointer; padding: 5px; line-height: 1;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.transaction-detail-modal-close-btn:hover {
+  color: var(--text-primary-dark, #1a202c); transform: scale(1.1);
+}
+.detail-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 9px 0; font-size: 0.9rem; border-bottom: 1px dotted var(--border-light, #eef2f7);
+}
+.detail-row:last-of-type { border-bottom: none; }
+.detail-row .label {
+  color: var(--text-light, #718096); font-weight: 500; margin-right: 15px; flex-shrink: 0;
+}
+.detail-row .value {
+  color: var(--text-secondary-dark, #4a5568); font-weight: 400; text-align: right;
+  word-break: break-word; flex-grow: 1;
+}
+@keyframes fadeInModalOverlay { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scaleUpModal {
+  from { transform: scale(0.95) translateY(10px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
 }
