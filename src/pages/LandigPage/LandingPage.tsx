@@ -1,4 +1,4 @@
-import React from 'react';
+
 import Footer from '../../shared/Footer/Footer'; // Presupunând că refolosești Footer-ul
 import LandingHeader from '../../shared/LandingPageComponents/LandingHeader'; // Header-ul pentru Landing Page
 import HeroSection from '../../shared/LandingPageComponents/HeroSection'; // Secțiunea de Hero

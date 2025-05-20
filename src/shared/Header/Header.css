@@ -2,46 +2,50 @@
 
 /* Variabile CSS pentru culori și tranziții (opțional, dar util pentru consistență) */
 :root {
-  --header-bg: #1A365D; /* Albastru închis corporate */
-  --header-bg-scrolled: rgba(26, 54, 93, 0.85); /* Același albastru, dar cu transparență */
-  --header-text-color: #f7fafc; /* Un alb puțin mai soft */
-  --header-text-hover: #cbd5e1; /* Gri deschis pentru hover */
-  --accent-color-primary: #48bb78; /* Verde pentru accente (login, status) */
-  --accent-color-secondary: #38a169; /* Verde mai închis */
-  --accent-color-danger: #e53e3e; /* Roșu pentru logout/alert */
-  --accent-color-danger-hover: #c53030;
-  --transition-speed: 0.3s;
+  --header-bg: #1A365D; 
+  --header-bg-scrolled: rgba(26, 54, 93, 0.9); /* Puțin mai opac la scroll */
+  --header-text-color: #f0f8ff; /* AliceBlue, un alb mai soft */
+  --header-text-hover: #e0f2fe; /* Light Blue pentru hover */
+  --accent-color-primary: #4ade80; /* Un verde mai vibrant (Tailwind green-400) */
+  --accent-color-secondary: #22c55e; /* Verde mai închis */
+  --accent-color-danger: #f87171; /* Roșu mai soft (Tailwind red-400) */
+  --accent-color-danger-hover: #ef4444;
+  --transition-speed: 0.25s; /* Tranziții mai rapide */
   --transition-easing: ease-in-out;
   --header-height: 70px;
-  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* Exemplu de font stack modern */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --dropdown-bg: #ffffff;
+  --dropdown-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  --dropdown-border: #e5e7eb;
+  --dropdown-text: #374151;
+  --dropdown-hover-bg: #f3f4f6;
+  --dropdown-accent-text: var(--header-bg);
 }
 
 .bank-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 3rem; /* Padding doar orizontal, înălțimea e fixă */
+  padding: 0 2.5rem; /* Padding orizontal */
   background: var(--header-bg);
   color: var(--header-text-color);
   height: var(--header-height);
-  position: fixed; /* Schimbat în fixed pentru a rămâne mereu sus */
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   transition: background-color var(--transition-speed) var(--transition-easing), 
-              box-shadow var(--transition-speed) var(--transition-easing),
-              height var(--transition-speed) var(--transition-easing); /* Adăugat tranziție pentru înălțime */
+              box-shadow var(--transition-speed) var(--transition-easing);
   font-family: var(--font-primary);
 }
 
 .bank-header.scrolled {
   background: var(--header-bg-scrolled);
-  backdrop-filter: blur(10px); /* Efect de sticlă mată - necesită suport browser */
-  -webkit-backdrop-filter: blur(10px); /* Pentru Safari */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* Umbră puțin mai pronunțată la scroll */
-  /* height: calc(var(--header-height) - 10px); Opțional: reduce înălțimea la scroll */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.12);
 }
 
 .header-left {
@@ -89,114 +93,174 @@
 .header-nav {
   display: flex;
   align-items: center;
-  gap: 1rem; /* Spațiu între elementele de navigație */
+  gap: 1.2rem; /* Spațiu ajustat între elementele de navigație */
 }
 
 .nav-btn {
-  padding: 0.5em 1em; /* Folosim em pentru scalabilitate cu font-size */
+  padding: 0.45em 0.9em; /* Padding mai mic pentru butoane non-auth */
   border: none;
-  border-radius: 6px; /* Colțuri puțin mai rotunjite */
+  border-radius: 6px;
   background: transparent;
   color: var(--header-text-color);
   cursor: pointer;
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.875rem; /* Font puțin mai mic */
   font-weight: 500;
-  position: relative; /* Pentru pseudo-elementul de subliniere */
-  overflow: hidden; /* Pentru efecte de hover */
+  position: relative;
   transition: color var(--transition-speed) var(--transition-easing), 
               background-color var(--transition-speed) var(--transition-easing);
 }
-
-.nav-btn::after { /* Subliniere elegantă la hover */
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 2px;
+.nav-btn::after {
+  content: ''; position: absolute; bottom: -2px; left: 50%; width: 0; height: 2px;
   background-color: var(--header-text-hover);
-  transition: width var(--transition-speed) var(--transition-easing), 
-              left var(--transition-speed) var(--transition-easing);
+  transition: width var(--transition-speed) var(--transition-easing), left var(--transition-speed) var(--transition-easing);
 }
-
-.nav-btn:hover::after {
-  width: 100%;
-  left: 0;
-}
+.nav-btn:hover::after { width: 100%; left: 0; }
 .nav-btn:hover {
   color: var(--header-text-hover);
-  background-color: rgba(255, 255, 255, 0.05); /* Fundal subtil la hover */
+  /* background-color: rgba(255, 255, 255, 0.05); Eliminăm fundalul pentru un look mai curat */
 }
 
-/* Stiluri pentru login/logout (pot fi rafinate și ele) */
-.login-btn, .logout-btn {
-  font-size: 0.9rem;
-  font-weight: 600;
-  padding: 0.6em 1.5em;
-  border-radius: 20px; /* Colțuri complet rotunjite */
+
+/* User Actions Container & Profile Button */
+.user-actions-container {
+  position: relative; /* Pentru poziționarea dropdown-ului */
+}
+
+.user-profile-btn {
   display: flex;
   align-items: center;
-  gap: 0.5em;
-  border: 1px solid transparent; /* Border pentru consistență */
-  transition: all var(--transition-speed) var(--transition-easing);
+  gap: 0.6rem; /* Spațiu între iconiță și username */
+  background-color: rgba(255, 255, 255, 0.08); /* Fundal subtil */
+  color: var(--header-text-color);
+  padding: 0.5rem 1rem; /* Padding ajustat */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Border subtil */
+  border-radius: 25px; /* Rotunjit */
+  cursor: pointer;
+  transition: background-color var(--transition-speed) var(--transition-easing), 
+              box-shadow var(--transition-speed) var(--transition-easing);
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
+.user-profile-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.user-profile-icon {
+  font-size: 1.3rem; /* Mărime iconiță utilizator */
+  /* color: var(--accent-color-primary); O culoare de accent dacă dorești */
+}
+
+.username-display {
+  font-weight: 500;
+}
+
+/* User Dropdown Menu */
+.user-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px); /* Puțin spațiu sub buton */
+  right: 0;
+  background-color: var(--dropdown-bg);
+  border-radius: var(--radius-md, 8px);
+  box-shadow: var(--dropdown-shadow);
+  min-width: 220px; /* Lățime minimă dropdown */
+  z-index: 1001; /* Peste alte elemente din header */
+  border: 1px solid var(--dropdown-border);
+  opacity: 0;
+  transform: translateY(-10px) scale(0.98);
+  visibility: hidden;
+  transition: opacity 0.25s var(--transition-easing), transform 0.25s var(--transition-easing), visibility 0.25s;
+  overflow: hidden; /* Pentru border-radius pe itemi */
+}
+
+/* Pentru a controla apariția cu JS state (isUserDropdownOpen), adăugăm o clasă: */
+/* În Header.tsx: <div className={`user-dropdown-menu ${isUserDropdownOpen ? 'active' : ''}`}> */
+/* Și în CSS: */
+.user-dropdown-menu.active, /* Dacă folosești o clasă 'active' din JS */
+.user-profile-btn[aria-expanded="true"] + .user-dropdown-menu { /* Sau prin atribut aria */
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  visibility: visible;
+}
+
+
+.user-dropdown-header {
+  padding: 0.8rem 1rem;
+  font-size: 0.85rem;
+  color: var(--text-subtle, #6b7280);
+  border-bottom: 1px solid var(--dropdown-border);
+  background-color: #f9fafb; /* Un fundal ușor diferit pentru header-ul dropdown-ului */
+}
+.user-dropdown-header strong {
+  color: var(--dropdown-text);
+  font-weight: 600;
+}
+
+.user-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.75rem 1rem; /* Padding itemi */
+  font-size: 0.9rem;
+  color: var(--dropdown-text);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s var(--transition-easing), color 0.2s var(--transition-easing);
+  border: none; /* Pentru butoane, resetăm border-ul */
+  width: 100%; /* Pentru butoane, să ocupe lățimea */
+  text-align: left; /* Pentru butoane */
+  background-color: transparent; /* Pentru butoane */
+}
+
+.user-dropdown-item:hover {
+  background-color: var(--dropdown-hover-bg);
+  color: var(--dropdown-accent-text); /* Sau o altă culoare de accent la hover */
+}
+
+.dropdown-item-icon {
+  font-size: 1rem; /* Mărime iconițe în dropdown */
+  color: var(--text-subtle, #6b7280); /* Culoare default iconițe */
+  width: 20px; /* Aliniere */
+  text-align: center;
+  transition: color 0.2s var(--transition-easing);
+}
+.user-dropdown-item:hover .dropdown-item-icon {
+  color: var(--dropdown-accent-text); /* Culoarea iconiței la hover pe item */
+}
+
+.user-dropdown-item.logout { /* Stil specific pentru butonul de logout */
+  color: var(--accent-color-danger, #f87171);
+  border-top: 1px solid var(--dropdown-border); /* Separator înainte de logout */
+}
+.user-dropdown-item.logout:hover {
+  background-color: rgba(248, 113, 113, 0.1); /* Fundal roșu subtil */
+  color: var(--accent-color-danger-hover, #ef4444);
+}
+.user-dropdown-item.logout:hover .dropdown-item-icon {
+  color: var(--accent-color-danger-hover, #ef4444);
+}
+
+
+/* Butonul de login (dacă nu ești logat) */
 .login-btn {
   background: var(--accent-color-primary);
   color: white;
-  border-color: var(--accent-color-primary);
+  padding: 0.5rem 1.2rem; /* Padding ajustat */
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500; /* Redus puțin font-weight */
+  font-size: 0.85rem;
+  transition: all var(--transition-speed) var(--transition-easing);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem; /* Spațiu mai mic */
 }
 
 .login-btn:hover {
   background: var(--accent-color-secondary);
-  border-color: var(--accent-color-secondary);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(var(--accent-color-primary), 0.2);
 }
-
-.user-profile {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 0.4em 1em;
-  border-radius: 20px;
-}
-
-.username {
-  font-weight: 500;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-}
-
-.username::before {
-  content: '';
-  width: 8px;
-  height: 8px;
-  background: var(--accent-color-primary);
-  border-radius: 50%;
-  /* box-shadow: 0 0 6px var(--accent-color-primary); eliminat pentru un look mai curat */
-}
-
-.logout-btn {
-  background: transparent;
-  color: var(--header-text-color);
-  border: 1px solid var(--header-text-color);
-}
-
-.logout-btn:hover {
-  background: var(--accent-color-danger);
-  border-color: var(--accent-color-danger);
-  color: white; /* Text alb pe fundal roșu */
-  transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-/* Iconițele (opțional, le-am scos pentru un look mai curat, dar le poți reintegra) */
-/* 
-.login-btn::before { content: '→'; font-weight: 700; }
-.logout-btn::after { content: '⤫'; font-size: 1.1em; } 
-*/

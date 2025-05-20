@@ -19,7 +19,6 @@ const TransactionDetailModal = ({ transaction, onClose }: { transaction: IDbTran
     hour: '2-digit', minute: '2-digit'
   });
   const descriptionParts = transaction.description?.split('(Suma originală:');
-  const mainDescriptionFromTx = descriptionParts?.[0]?.trim() || 'Fără descriere specifică';
   let conversionDetails = null;
   if (descriptionParts && descriptionParts.length > 1) {
     conversionDetails = `(Suma originală:${descriptionParts[1]}`;

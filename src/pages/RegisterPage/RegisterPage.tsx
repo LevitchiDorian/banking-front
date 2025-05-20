@@ -1,12 +1,12 @@
 import Register from '../../shared/Auth/Register';
 import Footer from '../../shared/Footer/Footer';
-import Header from '../../shared/Header/Header';
+import LandingHeader from '../../shared/LandingPageComponents/LandingHeader';
 
 
 const RegisterPage = () => {
   return (
     <div className="bank-app-container">
-      <Header />
+      <LandingHeader />
       <Register />
       <Footer />
     </div>

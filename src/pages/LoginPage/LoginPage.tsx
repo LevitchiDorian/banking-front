@@ -1,12 +1,12 @@
 import Login from '../../shared/Auth/Login';
 import Footer from '../../shared/Footer/Footer';
-import Header from '../../shared/Header/Header';
+import LandingHeader from '../../shared/LandingPageComponents/LandingHeader';
 
 
 const LoginPage = () => {
   return (
     <div className="bank-app-container">
-      <Header />
+      <LandingHeader/>
       <Login />
       <Footer />
     </div>

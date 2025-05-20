@@ -131,12 +131,6 @@ const MainContent = () => {
                 <span>Plată Facturi</span>
               </div>
             </button>
-            <button className="action-btn deposit">
-              <div className="action-btn-inner">
-                <span className="action-icon">+</span>
-                <span>Depunere</span>
-              </div>
-            </button>
           </div>
         </section>
 
