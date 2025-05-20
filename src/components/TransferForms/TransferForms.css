@@ -2,35 +2,37 @@
 .transfer-form {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem; /* Spațiu între grupurile de câmpuri */
-  margin-top: 1.5rem; /* Spațiu sub titlul modalului */
+  gap: 1.25rem; 
+  margin-top: 1rem;
 }
 
 .form-field {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem; /* Spațiu între etichetă și input */
+  gap: 0.4rem;
 }
 
 .form-field label {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   font-weight: 500;
-  color: #4b5563; /* Gri închis pentru etichete */
+  color: #4b5563;
+  margin-bottom: 0.1rem;
 }
 
 .form-field input[type="text"],
 .form-field input[type="number"],
-.form-field input[type="password"], /* Adăugat pentru consistență dacă apar parole */
+.form-field input[type="password"],
 .form-field select,
 .form-field textarea {
   width: 100%;
-  padding: 0.75rem 1rem; /* Padding generos */
-  font-size: 0.95rem;
-  border: 1px solid #d1d5db; /* Bordură gri deschis */
-  border-radius: 6px; /* Colțuri rotunjite */
-  background-color: #f9fafb; /* Fundal foarte deschis pentru inputuri */
-  color: #1f2937; /* Text închis pentru inputuri */
+  padding: 0.65rem 0.9rem;
+  font-size: 0.9rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #f9fafb;
+  color: #1f2937;
   transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  line-height: 1.5;
 }
 
 .form-field input[type="text"]:focus,
@@ -39,68 +41,189 @@
 .form-field select:focus,
 .form-field textarea:focus {
   outline: none;
-  border-color: #3b82f6; /* Albastru la focus (similar cu Tailwind blue-500) */
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); /* Umbră subtilă la focus */
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
   background-color: #ffffff;
 }
 
 .form-field textarea {
-  min-height: 80px;
-  resize: vertical; /* Permite redimensionarea verticală */
+  min-height: 70px;
+  resize: vertical;
 }
 
-/* Stil pentru mesajele de eroare de validare (dacă folosești o librărie de formulare) */
 .form-field .error-message {
-  font-size: 0.8rem;
-  color: #ef4444; /* Roșu pentru erori */
+  font-size: 0.75rem;
+  color: #ef4444;
   margin-top: 0.2rem;
+}
+
+/* Stil pentru input-ul de monedă read-only */
+.input-readonly-style.currency-display-input {
+  background-color: #e9ecef !important;
+  color: #4b5563 !important;
+  cursor: default !important;
+  font-weight: 500;
+  border-color: #d1d5db !important;
+  box-shadow: none !important;
+}
+
+/* Eliminăm stilurile vechi pentru aliniere inline */
+/* .currency-summary-section { ... } */
+/* .currency-field-wrapper { ... } */
+/* .transfer-summary-inline { ... } */
+
+/* Avertisment pentru monede diferite - ajustat */
+.currency-warning-standalone { /* Clasă nouă pentru controlul marginilor */
+  margin-top: -0.75rem; /* Ridică-l puțin dacă vine după un form-field */
+  margin-bottom: 1rem;
+}
+.currency-warning-message {
+  font-size: 0.8rem;
+  color: #b45309;
+  display: block;
+  padding: 0.5rem 0.75rem;
+  background-color: #fef3c7;
+  border-left: 4px solid #f59e0b;
+  border-radius: 4px;
+}
+
+/* Sumar Transfer - acum un bloc separat */
+.transfer-summary-block {
+  margin-top: 0.5rem; /* Spațiu mic deasupra */
+  margin-bottom: 0.25rem; /* Spațiu mic dedesubt, înainte de comision */
+  padding: 0.75rem 1rem;
+  background-color: #eef2ff; /* Un fundal indigo/lavandă deschis */
+  border-radius: 6px;
+  border: 1px solid #c7d2fe; /* O bordură asortată */
+}
+
+.transfer-summary-block p {
+  font-size: 0.9rem;
+  color: #4338ca; /* Indigo pentru textul sumarului */
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.transfer-summary-block p span {
+  font-weight: 600;
+}
+
+/* Notă despre Comision */
+.commission-note {
+  margin-top: 0.5rem; /* Apropiat de sumarul de deasupra */
+  margin-bottom: 1.25rem;
+  padding: 0.85rem 1rem;
+  background-color: #f3f4f6;
+  border-radius: 6px;
+  border: 1px dashed #d1d5db;
+  /* text-align: right; Scoatem text-align: right pentru a fi consistent cu blocurile */
+}
+
+.commission-note p {
+  font-size: 0.8rem;
+  color: #4b5563;
+  margin: 0.25rem 0;
+  display: flex; /* Pentru aliniere stânga-dreapta */
+  justify-content: space-between; /* Aliniază label-ul și valoarea */
+}
+
+.commission-note p span { /* Pentru valoarea numerică */
+  font-weight: 600;
+  color: #1f2937;
+  margin-left: 0.5rem; /* Puțin spațiu între label și valoare */
+}
+
+.commission-note .total-payable-note span {
+  font-size: 0.85rem;
+  color: #1d4ed8;
+}
+
+/* ... (restul stilurilor tale pentru .form-message, .form-actions, .btn etc. rămân la fel) ... */
+.form-message {
+  padding: 1rem;
+  text-align: center;
+  color: #4b5563;
+  font-style: italic;
+  background-color: #f3f4f6;
+  border-radius: 6px;
+}
+.form-message.error {
+  color: #991b1b; 
+  background-color: #fee2e2; 
+  border: 1px solid #fca5a5; 
+  font-style: normal;
+  font-weight: 500;
 }
 
 .form-actions {
   margin-top: 1.5rem;
   display: flex;
-  justify-content: flex-end; /* Aliniază butoanele la dreapta */
-  gap: 0.75rem; /* Spațiu între butoane */
-  padding-top: 1rem;
-  border-top: 1px solid #e5e7eb; /* Linie separatoare deasupra acțiunilor */
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 1.25rem; 
+  border-top: 1px solid #e5e7eb; 
 }
 
 .btn {
-  padding: 0.7rem 1.5rem;
+  padding: 0.65rem 1.4rem; 
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 500; 
   border-radius: 6px;
-  border: none;
+  border: 1px solid transparent; 
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out, transform 0.1s ease-out;
+  transition: all 0.2s ease-in-out; 
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  line-height: 1.5; 
 }
 
-.btn:hover {
-  transform: translateY(-1px);
+.btn:hover:not(:disabled) { 
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
-.btn:active {
+.btn:active:not(:disabled) {
   transform: translateY(0px);
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.1); 
 }
 
 .btn-primary {
-  background-color: #2563eb; /* Albastru primar */
+  background-color: #2563eb;
   color: white;
+  border-color: #2563eb; 
 }
 
-.btn-primary:hover {
-  background-color: #1d4ed8; /* Albastru mai închis la hover */
+.btn-primary:hover:not(:disabled) {
+  background-color: #1d4ed8; 
+  border-color: #1d4ed8;
+}
+
+.btn-primary:disabled {
+  background-color: #93c5fd; 
+  border-color: #93c5fd;
+  color: #e0f2fe; 
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
 
 .btn-secondary {
-  background-color: #e5e7eb; /* Gri deschis */
-  color: #374151; /* Text gri închis */
-  border: 1px solid #d1d5db;
+  background-color: #ffffff; 
+  color: #4b5563; 
+  border: 1px solid #d1d5db; 
 }
 
-.btn-secondary:hover {
-  background-color: #d1d5db; /* Gri puțin mai închis la hover */
+.btn-secondary:hover:not(:disabled) {
+  background-color: #f3f4f6; 
+  border-color: #9ca3af; 
+}
+.btn-secondary:disabled {
+  background-color: #f3f4f6;
+  color: #9ca3af; 
+  border-color: #e5e7eb;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }

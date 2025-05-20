@@ -3,9 +3,6 @@ import './MainContent.css';
 import RecentTransactions from '../RecentTransactions/RecentTransactions'; // Ajustează calea
 import { useSelectedAccount } from '../../context/SelectedAccountContext/SelectedAccountContext'; // Ajustează calea
 import { useGetUserDbAccountsQuery } from '../../store/bankingApi'; // Ajustează calea
-// import { IDbAccountResponseDTO } from '../../entities/IDbAccountResponseDTO'; // Ajustează calea
-
-// Importăm componentele pentru modale
 import TransferTypeSelectionModal from '../../components/Modals/TransferTypeSelectionModal'; // Ajustează calea
 import TransferFormModal from '../../components/Modals/TransferFormModal'; // Ajustează calea
 
@@ -15,7 +12,7 @@ export type TransferType = 'own_account' | 'intrabank' | 'domestic_bank' | null;
 // SIMULARE RATE DE CONVERSIE (mută într-un fișier utilitar sau context dacă e folosit global)
 const exchangeRatesToLEI: Record<string, number> = {
   'LEI': 1,
-  'USD': 17.70,
+  'USD': 17.50,
   'EUR': 19.00,
 };
 const convertToLEI = (amount: number, currency: string): number => {
@@ -145,7 +142,6 @@ const MainContent = () => {
 
         <RecentTransactions
           selectedAccountNumber={selectedAccount?.accountNumber}
-          selectedAccountCurrency={selectedAccount?.currency}
         />
       </div>
 
