@@ -1,0 +1,277 @@
+/* LandingPageComponents.css */
+
+/* Adaugă/Modifică în LandingPageComponents.css */
+
+/* Hero Section */
+.hero-section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  color: var(--text-color-light, #f9fafb);
+  /* MODIFIED SECTION START: Adjusted padding */
+  padding: var(--header-height, 70px) 2rem 6rem; /* Increased bottom padding from 4rem to 6rem */
+  /* MODIFIED SECTION END */
+  background-size: cover;
+  background-position: center center;
+  /* background-attachment: fixed; - poate fi problematic cu tranzițiile de imagine */
+  transition: background-image 0.5s ease-in-out; /* Tranziție lină pentru schimbarea imaginii */
+  overflow: hidden; /* Previne artefacte de la animații */
+}
+
+/* Efect de fading pentru imaginile de fundal */
+.hero-section.fading-out {
+  opacity: 0.8; /* Sau ajustează pentru efectul dorit de fade out */
+}
+.hero-section.fading-in {
+  opacity: 1;
+}
+
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: heroTextAppear 1s cubic-bezier(0.215, 0.610, 0.355, 1.000) 0.4s forwards;
+}
+
+.hero-title {
+  font-size: clamp(2.8rem, 7vw, 4.5rem); /* Font mai mare și mai impactant */
+  font-weight: 800; /* Foarte bold */
+  line-height: 1.15;
+  margin-bottom: 1.25rem;
+  text-shadow: 0 2px 15px rgba(0,0,0,0.35);
+  letter-spacing: -1.5px;
+}
+.hero-title span { /* Pentru animație stagger dacă dorești */
+  display: block;
+}
+
+.hero-subtitle {
+  font-size: clamp(1.1rem, 3.5vw, 1.35rem);
+  margin-bottom: 3rem;
+  font-weight: 300;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.7;
+  opacity: 0; /* Pentru animație */
+  transform: translateY(20px);
+  animation: fadeInItem 0.8s ease-out 0.8s forwards;
+}
+
+.hero-cta-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.2rem;
+  opacity: 0; /* Pentru animație */
+  transform: translateY(20px);
+  animation: fadeInItem 0.8s ease-out 1s forwards;
+}
+
+.cta-btn {
+  padding: 0.9rem 2.2rem; /* Padding standard */
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-main), transform 0.2s ease, box-shadow 0.2s ease;
+  text-decoration: none;
+  border: 2px solid transparent;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  line-height: 1.5;
+}
+
+.cta-btn.primary.hero-cta-primary { /* Clasă specifică pentru prioritate */
+  background-color: var(--accent-color, #38bdf8);
+  color: var(--primary-brand-color, #1A365D); /* Text dark on light accent button */
+  border-color: var(--accent-color, #38bdf8);
+}
+.cta-btn.primary.hero-cta-primary:hover {
+  background-color: var(--accent-color-hover, #0ea5e9);
+  border-color: var(--accent-color-hover, #0ea5e9);
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3);
+}
+
+.cta-btn.secondary.hero-cta-secondary {
+  background-color: transparent;
+  color: var(--text-color-light, #f9fafb);
+  border-color: var(--text-color-light, #f9fafb); /* Sau un gri deschis subtil */
+}
+.cta-btn.secondary.hero-cta-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: var(--text-color-light, #f9fafb);
+  transform: translateY(-3px);
+}
+
+.cta-btn.large { /* Rămâne pentru alte CTA-uri */
+  padding: 1rem 2.5rem;
+  font-size: 1rem;
+}
+
+/* Scroll Indicator (Opțional) */
+.hero-scroll-indicator {
+  position: absolute;
+  /* MODIFIED SECTION START: Adjusted bottom position */
+  bottom: 2.5rem; /* Was 30px, changed to 2.5rem (approx 40px) to sit well within new padding */
+  /* MODIFIED SECTION END */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 24px;
+  height: 40px;
+  border: 2px solid rgba(255, 255, 255, 0.7);
+  border-radius: 20px;
+  opacity: 0;
+  animation: fadeInItem 1s ease-out 1.5s forwards;
+}
+.hero-scroll-indicator span {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 2px;
+  animation: scrollUpDown 1.8s infinite ease-in-out;
+}
+
+/* Animații reutilizabile */
+@keyframes heroTextAppear {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeInItem {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideUpItem {
+  from { opacity: 0; transform: translateY(100%); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes scrollUpDown {
+  0% { transform: translateY(0) translateX(-50%); opacity: 1; }
+  50% { transform: translateY(10px) translateX(-50%); opacity: 0.5; }
+  100% { transform: translateY(0) translateX(-50%); opacity: 1; }
+}
+
+/* Services Highlight Section */
+.services-highlight-section {
+  background-color: var(--surface-light);
+  padding-top: 5rem; padding-bottom: 5rem;
+}
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  margin-top: 2.5rem;
+}
+.service-card {
+  background-color: var(--surface-light);
+  padding: 2rem 1.5rem;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-top: 4px solid transparent; /* Pentru efect de hover */
+}
+.service-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.09);
+  border-top-color: var(--accent-color);
+}
+.service-icon {
+  font-size: 2.5rem; /* Iconițe mai mici, elegante */
+  color: var(--accent-color);
+  margin-bottom: 1.2rem;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+.service-card:hover .service-icon {
+    transform: scale(1.1);
+}
+.service-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-color-dark);
+  margin-bottom: 0.6rem;
+}
+.service-description {
+  font-size: 0.875rem;
+  color: #6b7280; /* Gri mediu-închis */
+  line-height: 1.6;
+}
+
+/* Benefits Section */
+.benefits-section {
+  background-color: #f0f4f8; /* Un fundal ușor diferit */
+  padding-top: 5rem; padding-bottom: 5rem;
+}
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2.5rem; /* Spațiu mai mare */
+  margin-top: 2.5rem;
+}
+.benefit-item {
+  display: flex;
+  flex-direction: column; /* Iconița deasupra, apoi textul */
+  align-items: center; /* Centrează conținutul */
+  text-align: center;
+  padding: 1.5rem;
+  background-color: var(--surface-light);
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+}
+.benefit-icon {
+  font-size: 2.2rem;
+  color: var(--primary-brand-color);
+  margin-bottom: 1rem;
+  padding: 0.8rem;
+  background-color: rgba(26, 54, 93, 0.07); /* Fundal subtil pentru iconiță */
+  border-radius: 50%;
+  display: inline-flex;
+}
+.benefit-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-color-dark);
+  margin-bottom: 0.5rem;
+}
+.benefit-description {
+  font-size: 0.85rem;
+  color: #6b7280;
+  line-height: 1.55;
+}
+
+/* Call to Action Section */
+.cta-section {
+  background: var(--primary-brand-color);
+  color: var(--text-color-light);
+  text-align: center;
+  padding: 5rem 2rem;
+}
+.cta-content {
+  max-width: 650px;
+  margin: 0 auto;
+}
+.cta-title {
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--text-color-light); /* Explicitly setting for .cta-title within .cta-section */
+}
+.cta-text {
+  font-size: 1.05rem;
+  margin-bottom: 2.5rem;
+  opacity: 0.85;
+  line-height: 1.7;
+}
+

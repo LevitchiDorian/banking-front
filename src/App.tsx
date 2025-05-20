@@ -1,24 +1,64 @@
-import { BrowserRouter } from 'react-router-dom';
-import { Routing } from './router'; // Asigură-te că calea este corectă
+// src/App.tsx
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import React from 'react';
 import './App.css';
-import { AuthProvider } from './context/AuthContext/AuthContext'; // Asigură-te că calea este corectă
-import Notification from './shared/Notification/Notification'; // Asigură-te că calea este corectă
-import { SelectedAccountProvider } from './context/SelectedAccountContext/SelectedAccountContext'; // Asigură-te că calea este corectă
-
-// Importuri pentru Redux
+import { AuthProvider, useAuth } from './context/AuthContext/AuthContext';
+import Notification from './shared/Notification/Notification';
+import { SelectedAccountProvider } from './context/SelectedAccountContext/SelectedAccountContext';
 import { Provider as ReduxProvider } from 'react-redux';
-import { store } from './app/store'; // Asigură-te că calea este corectă
+import { store } from './app/store';
+
+// Importă paginile principale
+import LandingPage from './pages/LandigPage/LandingPage'; // Ajustează calea dacă e 'LandigPage'
+import MainPage from './pages/MainPage/MainPage';
+import LoginPage from './pages/LoginPage/LoginPage';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
+import TransfersPage from './pages/TransfersPage/TransfersPage'; // Aceasta este pagina pentru ISTORICUL transferurilor
+
+import { AppRoutes } from './app/Router'; // Ajustează calea
+
+import type { ReactElement } from 'react'; // Necesită 'React' importat
+
+// Componenta pentru rute protejate
+const ProtectedRoute = ({ children }: { children: ReactElement }) => {
+  const auth = useAuth();
+  if (!auth.isLoggedIn) {
+    return <Navigate to={AppRoutes.LOGIN} replace />;
+  }
+  return children;
+};
+
+// Componenta care va gestiona rutele
+const AppRouterLogic = () => {
+  const auth = useAuth();
+
+  return (
+    <Routes>
+      <Route 
+        path={AppRoutes.MAIN} 
+        element={auth.isLoggedIn ? <MainPage /> : <LandingPage />} 
+      />
+      <Route path={AppRoutes.LOGIN} element={<LoginPage />} />
+      <Route path={AppRoutes.REGISTER} element={<RegisterPage />} />
+      
+      {/* Ruta pentru pagina de istoric al transferurilor (dacă așa este intenția) */}
+      <Route 
+        path={AppRoutes.TRANSFERS} 
+        element={<ProtectedRoute><TransfersPage /></ProtectedRoute>} 
+      />
+
+      <Route path="*" element={<Navigate to={AppRoutes.MAIN} replace />} />
+    </Routes>
+  );
+};
 
 const App: React.FC = () => (
-  // Ordinea providerilor externi (AuthProvider, ReduxProvider) poate conta
-  // dacă unul depinde de celălalt. De obicei, ReduxProvider este destul de sus.
-  <ReduxProvider store={store}>  {/* Provider-ul Redux la un nivel superior */}
-    <AuthProvider>              {/* Apoi AuthProvider */}
-      <SelectedAccountProvider> {/* Apoi SelectedAccountProvider */}
+  <ReduxProvider store={store}>
+    <AuthProvider>
+      <SelectedAccountProvider>
         <Notification />
         <BrowserRouter>
-          <Routing /> {/* Routing și copiii săi vor avea acces la TOATE cele 3 contexte */}
+          <AppRouterLogic />
         </BrowserRouter>
       </SelectedAccountProvider>
     </AuthProvider>
