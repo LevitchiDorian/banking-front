@@ -1,0 +1,258 @@
+/* LandingHeader.css */
+:root { /* Asigură-te că aceste variabile sunt definite global sau aici */
+  --header-height: 70px;
+  --primary-brand-color: #1A365D; /* Culoarea ta principală, ex: albastru navy */
+  --secondary-brand-color: #15315A;
+  --accent-color: #38bdf8; /* Un accent vibrant, ex: cyan */
+  --accent-color-hover: #0ea5e9;
+  --text-color-dark: #1f2937; /* Pentru text pe fundal deschis */
+  --text-color-light: #f9fafb; /* Pentru text pe fundal închis */
+  --surface-light: #ffffff;
+  --surface-semi-transparent: rgba(255, 255, 255, 0.95);
+  --border-color-light: #e5e7eb;
+  --font-primary: 'Inter', sans-serif; /* Asigură-te că ai importat fontul Inter */
+  --transition-main: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.landing-header {
+  background-color: #15315A; /* Inițial transparent */
+  padding: 0 2rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: var(--header-height);
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, color 0.3s ease-in-out; /* Added color transition */
+  font-family: var(--font-primary);
+}
+
+.landing-header.scrolled,
+.landing-header.mobile-menu-active { /* Adaugă fundal și la meniul mobil activ */
+  background-color: var(--surface-semi-transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+
+.landing-header-content {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.landing-logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 0.6rem;
+}
+
+.landing-logo {
+  height: calc(var(--header-height) - 30px);
+  max-height: 40px;
+  width: auto;
+}
+
+.landing-bank-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--primary-brand-color); /* Default color (for scrolled state) */
+  letter-spacing: -0.5px;
+  transition: color 0.3s ease-in-out;
+}
+
+/* MODIFIED SECTION START: Header text color for initial transparent state */
+.landing-header:not(.scrolled):not(.mobile-menu-active) .landing-bank-name {
+    color: var(--text-color-light); /* Light color for bank name on dark hero */
+}
+/* MODIFIED SECTION END */
+
+.landing-header.scrolled .landing-bank-name,
+.landing-header.mobile-menu-active .landing-bank-name {
+    color: var(--primary-brand-color); /* Ensure it's dark when scrolled or mobile menu active */
+}
+
+.landing-nav {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.landing-nav-link {
+  text-decoration: none;
+  color: var(--text-color-dark); /* Default color (for scrolled state) */
+  font-weight: 500;
+  font-size: 0.9rem;
+  padding: 0.5rem 0;
+  position: relative;
+  transition: color 0.2s ease;
+}
+
+/* MODIFIED SECTION START: Nav link color for initial transparent state */
+.landing-header:not(.scrolled):not(.mobile-menu-active) .landing-nav .landing-nav-link {
+  color: var(--text-color-light); /* Light color for nav links on dark hero */
+}
+
+.landing-header:not(.scrolled):not(.mobile-menu-active) .landing-nav .landing-nav-link:hover {
+  color: var(--accent-color); /* Accent color on hover */
+}
+
+.landing-header:not(.scrolled):not(.mobile-menu-active) .landing-nav .landing-nav-link::after {
+  background-color: var(--accent-color); /* Underline matches accent */
+}
+/* MODIFIED SECTION END */
+
+.landing-nav-link::after {
+  content: ''; position: absolute; bottom: 0; left: 0;
+  width: 0; height: 2px; background-color: var(--accent-color);
+  transition: width 0.3s ease;
+}
+/* Default hover for scrolled state */
+.landing-header.scrolled .landing-nav-link:hover,
+.landing-header.mobile-menu-active .landing-nav-link:hover { 
+  color: var(--accent-color); 
+}
+.landing-header.scrolled .landing-nav-link:hover::after,
+.landing-header.mobile-menu-active .landing-nav-link:hover::after { 
+  width: 100%; 
+  background-color: var(--accent-color);
+}
+/* Ensure hover on non-scrolled also shows underline */
+.landing-nav-link:hover::after { width: 100%; }
+
+
+.landing-auth-buttons {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.landing-btn {
+  padding: 0.55rem 1.1rem; /* Padding ajustat */
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-main);
+  border: 1px solid transparent;
+  line-height: 1.4; /* Pentru aliniere text */
+}
+
+.landing-btn.login {
+  background-color: transparent;
+  color: var(--primary-brand-color); /* Default for scrolled */
+  border-color: var(--primary-brand-color); /* Default for scrolled */
+}
+.landing-btn.login:hover {
+  background-color: rgba(26, 54, 93, 0.05); /* Default for scrolled */
+  color: var(--secondary-brand-color);
+  border-color: var(--secondary-brand-color);
+}
+
+/* MODIFIED SECTION START: Auth button styling for initial transparent state */
+.landing-header:not(.scrolled):not(.mobile-menu-active) .landing-btn.login {
+  color: var(--text-color-light);
+  border-color: var(--text-color-light);
+}
+.landing-header:not(.scrolled):not(.mobile-menu-active) .landing-btn.login:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--text-color-light);
+  border-color: var(--text-color-light);
+}
+/* MODIFIED SECTION END */
+
+.landing-btn.register {
+  background-color: var(--accent-color);
+  color: white; /* Usually white or very light on accent background */
+  border-color: var(--accent-color);
+}
+/* The register button text color might need adjustment if var(--text-color-light) is preferred over 'white'
+   However, 'white' is common for buttons with solid accent backgrounds. Assuming 'white' is fine. */
+.landing-header:not(.scrolled):not(.mobile-menu-active) .landing-btn.register {
+  color: var(--primary-brand-color); /* Or white, depending on desired contrast with accent color */
+  /* If accent is very light, dark text is better. If accent is darker, white text.
+     The current --accent-color: #38bdf8 (sky blue) works well with white text usually.
+     The image implies the "Înregistrare" button has blue text on a lighter blue background.
+     The CSS seems to set its text to 'white'. The image might have slightly different button styling for "Înregistrare".
+     Let's assume the CSS for .register button is generally fine as is, as it defines its own background.
+     The crucial part is that its text color (`white`) should contrast well with `var(--accent-color)`.
+     If the request implies this also needs to change based on header state, it's more complex.
+     For now, let's assume the register button is fine as is because its background is solid.
+  */
+}
+
+
+.landing-btn.register:hover {
+  background-color: var(--accent-color-hover);
+  border-color: var(--accent-color-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.mobile-menu-toggle {
+  display: none; /* Ascuns pe desktop */
+  background: none;
+  border: none;
+  color: var(--primary-brand-color); /* Se potrivește cu culoarea numelui băncii (for scrolled) */
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 1001; /* Peste navigație */
+  transition: color 0.3s ease-in-out;
+}
+
+/* MODIFIED SECTION START: Mobile toggle color for initial transparent state */
+.landing-header:not(.scrolled):not(.mobile-menu-active) .mobile-menu-toggle {
+  color: var(--text-color-light); /* Light color for hamburger icon on dark hero */
+}
+/* MODIFIED SECTION END */
+
+/* Stiluri pentru meniul mobil */
+@media (max-width: 880px) { /* Breakpoint pentru meniul mobil */
+  .landing-nav {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--surface-semi-transparent); /* This background is light */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Pornește itemii de sus */
+    padding-top: 3rem;
+    gap: 1.5rem;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow-y: auto;
+  }
+  .landing-nav.open {
+    transform: translateX(0);
+  }
+  .landing-nav-link {
+    font-size: 1.1rem; /* Font mai mare pentru mobil */
+    padding: 0.8rem 1rem;
+    width: 80%;
+    text-align: center;
+    border-radius: 6px;
+    /* Color in mobile menu should be dark as background is light (var(--surface-semi-transparent)) */
+    color: var(--text-color-dark); 
+  }
+   .landing-nav-link:hover {
+    background-color: rgba(26, 54, 93, 0.05);
+    color: var(--accent-color); /* Ensure hover color is accent */
+  }
+  /* When mobile menu is open, nav links need to be dark regardless of scroll state */
+  .landing-header.mobile-menu-active .landing-nav .landing-nav-link {
+      color: var(--text-color-dark);
+  }
+  .landing-header.mobile-menu-active .landing-nav .landing-nav-link:hover {
+      color: var(--accent-color);
+  }
+
+}

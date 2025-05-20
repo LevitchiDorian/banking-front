@@ -1,0 +1,72 @@
+/* LandingPage.css */
+.landing-page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f4f7f9; /* Un fundal general foarte deschis, neutru */
+  overflow-x: hidden; 
+}
+
+.landing-page-content { /* Containerul care ține toate secțiunile */
+  flex-grow: 1; /* Permite footer-ului să stea jos */
+}
+
+/* Stiluri generale pentru secțiunile din landing page */
+.landing-section {
+  padding: 5rem 2rem; /* Spațiere verticală mai mare între secțiuni */
+  max-width: 1200px; /* Lățime maximă pentru conținutul secțiunilor */
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+/* Alternează fundalul pentru secțiuni pentru contrast vizual */
+.landing-section.alternate-bg { 
+  background-color: #ffffff; /* Fundal alb pentru secțiuni alternate */
+}
+/* Poți aplica clasa .alternate-bg manual pe secțiunile dorite în LandingPage.tsx */
+/* ex: <ServicesHighlight className="landing-section alternate-bg fade-in-section" /> */
+
+
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.5rem); /* Titlu responsive */
+  font-weight: 700;
+  color: var(--primary-brand-color, #1A365D);
+  text-align: center;
+  margin-bottom: 1rem;
+  position: relative; /* Pentru pseudo-elementul de subliniere */
+  padding-bottom: 0.5rem;
+}
+/* Subliniere elegantă pentru titlurile de secțiune */
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px; /* Lățime subliniere */
+  height: 3px; /* Grosime subliniere */
+  background-color: var(--accent-color, #38bdf8);
+  border-radius: 2px;
+}
+
+.section-subtitle {
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  color: #4b5563; /* Gri mediu-închis */
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 3.5rem auto; /* Spațiu mai mare sub subtitlu */
+  line-height: 1.65;
+}
+
+/* Animație de fade-in la scroll (definită global sau aici) */
+.fade-in-section {
+  opacity: 0;
+  transform: translateY(40px); /* Începe puțin mai de jos */
+  transition: opacity 0.65s ease-out, transform 0.65s ease-out;
+}
+
+.fade-in-section.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}

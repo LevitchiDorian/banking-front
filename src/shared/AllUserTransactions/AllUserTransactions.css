@@ -1,0 +1,198 @@
+/* src/shared/AllUserTransactions/AllUserTransactions.css */
+/* Importăm variabilele dacă sunt globale, altfel le definim aici */
+:root {
+  --text-primary-dark: #1a202c;
+  --text-secondary-dark: #4a5568;
+  --text-light: #718096;
+  --surface-background: #ffffff;
+  --surface-hover: #f8fafc;
+  --border-light: #eef2f7;
+  --color-income: #16a34a;
+  --color-expense: #dc2626;
+  --color-internal: #2563eb;
+  --color-neutral-bg: rgba(100, 116, 139, 0.1);
+  --border-radius-card: 10px;
+  --box-shadow-card: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+body {
+    background: #f4f7f6 !important;
+    --surface-background: #ffffff;
+    --surface-hover: #f8fafc;
+    --border-light: #eef2f7;
+}
+
+
+.all-transactions-container {
+  background-color: var(--surface-background);
+  padding: 20px 25px;
+  border-radius: var(--border-radius-card);
+  box-shadow: var(--box-shadow-card);
+  /* height: 100%; Nu mai setăm height 100% aici, lăsăm conținutul să dicteze */
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
+}
+
+/* Stilurile pentru .transactions-list, .transaction-item, .transaction-type-icon, 
+   .transaction-details, .transaction-description, .transaction-date,
+   .transaction-amount-details, .transaction-amount, .transaction-currency,
+   .transactions-message, și toate clasele pentru modal (.transaction-detail-modal-*)
+   pot fi IDENTICE sau foarte similare cu cele din RecentTransactions.css.
+
+   Pentru a evita duplicarea, ai putea crea un fișier CSS comun, ex: `TransactionListStyles.css`
+   și să-l imporți atât în AllUserTransactions.css cât și în RecentTransactions.css.
+
+   Pentru acest exemplu, voi copia stilurile relevante din RecentTransactions.css.
+*/
+
+.transactions-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  /* overflow-y: auto; Scoatem overflow-y de aici, pagina va avea scroll dacă e nevoie */
+}
+
+.transaction-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 4px;
+  border-bottom: 1px solid var(--border-light);
+  transition: background-color 0.2s ease-in-out;
+  cursor: pointer;
+  min-height: 60px;
+}
+.transaction-item:hover {
+  background-color: var(--surface-hover);
+}
+.transaction-item:last-child {
+  border-bottom: none;
+}
+
+.transaction-type-icon {
+  font-size: 1.05rem;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  flex-shrink: 0;
+  color: white;
+}
+.transaction-income .transaction-type-icon { background-color: var(--color-income); }
+.transaction-expense .transaction-type-icon { background-color: var(--color-expense); }
+.transaction-internal .transaction-type-icon { background-color: var(--color-internal); }
+.transaction-neutral .transaction-type-icon { background-color: var(--color-neutral-bg); color: var(--text-secondary-dark); }
+
+.transaction-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
+  margin-right: 8px;
+  overflow: hidden;
+  gap: 1px;
+}
+.transaction-description {
+  font-weight: 500;
+  color: var(--text-secondary-dark);
+  font-size: 0.875rem;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.transaction-date {
+  font-size: 0.7rem;
+  color: var(--text-light);
+}
+
+.transaction-amount-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-left: auto;
+  padding-left: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.transaction-amount {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.transaction-currency {
+  font-size: 0.7rem;
+  color: var(--text-light);
+  margin-top: 1px;
+}
+.transaction-amount.amount-income { color: var(--color-income); }
+.transaction-amount.amount-expense { color: var(--color-expense); }
+.transaction-amount.amount-internal { color: var(--color-internal); }
+.transaction-amount.amount-neutral { color: var(--text-secondary-dark); }
+
+.transactions-message {
+  padding: 25px 15px;
+  text-align: center;
+  color: var(--text-secondary-dark);
+  font-style: italic;
+  font-size: 0.9rem;
+}
+.transactions-message.loading::before {
+  content: ''; display: inline-block; width: 16px; height: 16px;
+  border: 2px solid var(--text-light); border-top-color: var(--color-internal);
+  border-radius: 50%; animation: spin 0.8s linear infinite;
+  margin-right: 8px; vertical-align: middle;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.transactions-message.transactions-error {
+  color: var(--color-expense); font-weight: 500; font-style: normal;
+}
+
+/* Stilurile pentru Modalul de Detalii Tranzacție */
+.transaction-detail-modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(15, 23, 42, 0.65); 
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1100; padding: 1rem; animation: fadeInModalOverlay 0.25s ease-out forwards;
+}
+.transaction-detail-modal-content {
+  background-color: var(--surface-background); padding: 20px 25px; 
+  border-radius: var(--border-radius-card); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  width: 100%; max-width: 450px; position: relative;
+  animation: scaleUpModal 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  color: var(--text-secondary-dark, #4a5568); max-height: 85vh; overflow-y: auto;
+  display: flex; flex-direction: column;
+}
+.transaction-detail-modal-content h4 {
+  margin-top: 0; margin-bottom: 1rem; font-size: 1.15rem;
+  color: var(--text-primary-dark, #1a202c); font-weight: 600; text-align: center;
+  padding-bottom: 0.75rem; border-bottom: 1px solid var(--border-light, #eef2f7);
+}
+.transaction-detail-modal-close-btn {
+  position: absolute; top: 10px; right: 10px; background: transparent; border: none;
+  font-size: 1.5rem; color: #9ca3af; cursor: pointer; padding: 5px; line-height: 1;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.transaction-detail-modal-close-btn:hover {
+  color: var(--text-primary-dark, #1a202c); transform: scale(1.1);
+}
+.detail-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 9px 0; font-size: 0.9rem; border-bottom: 1px dotted var(--border-light, #eef2f7);
+}
+.detail-row:last-of-type { border-bottom: none; }
+.detail-row .label {
+  color: var(--text-light, #718096); font-weight: 500; margin-right: 15px; flex-shrink: 0;
+}
+.detail-row .value {
+  color: var(--text-secondary-dark, #4a5568); font-weight: 400; text-align: right;
+  word-break: break-word; flex-grow: 1;
+}
+
+@keyframes fadeInModalOverlay { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scaleUpModal {
+  from { transform: scale(0.95) translateY(10px); opacity: 0; }
+  to { transform: scale(1) translateY(0); opacity: 1; }
+}
