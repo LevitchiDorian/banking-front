@@ -147,3 +147,42 @@
 .dropdown-error {
   color: #e74c3c; /* O culoare roșie pentru eroare */
 }
+
+.dropdown-separator {
+  height: 1px;
+  background-color: #f0f0f0;
+  margin: 8px 0;
+}
+
+.account-item-action {
+  display: flex; /* Pentru alinierea iconiței și textului */
+  align-items: center;
+  gap: 10px; /* Spațiu între iconiță și text */
+  padding: 16px; /* Similar cu account-item */
+  width: 100%; /* Ocupă toată lățimea */
+  text-align: left; /* Aliniază textul la stânga */
+  background: none; /* Fără fundal de buton */
+  border: none; /* Fără bordură de buton */
+  cursor: pointer;
+  font-size: 0.95rem; /* Ajustează după preferințe */
+  color: #3498db; /* O culoare de accent */
+  transition: background-color 0.25s ease;
+}
+
+.account-item-action:hover {
+  background-color: #f0f8ff; /* Un albastru deschis la hover */
+  color: #2980b9;
+}
+
+.account-item-action .action-icon {
+  font-size: 1.1rem; /* Mărimea iconiței */
+}
+
+/* Clasa pentru contul activ (poate fi deja definită) */
+.active-account {
+  background-color: #e9f5ff; /* Un fundal pentru a indica selecția */
+  font-weight: 500; /* Text mai bold pentru contul activ */
+}
+.active-account .account-type {
+  color: #1c6ca1; /* Culoare mai închisă pentru tipul contului activ */
+}

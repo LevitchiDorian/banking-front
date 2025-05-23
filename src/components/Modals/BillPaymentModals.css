@@ -1,0 +1,196 @@
+/* src/components/Modals/BillPaymentModals.css */
+/* General Modal Overlay & Content (poate fi refactorizat dacă ai deja stiluri globale pentru modale) */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.65); /* Slightly darker overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050;
+  opacity: 0;
+  animation: fadeInOverlay 0.3s forwards;
+}
+
+@keyframes fadeInOverlay { to { opacity: 1; } }
+
+.modal-content {
+  background: #ffffff;
+  padding: 2rem 2.5rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 550px; /* Slightly wider for forms */
+  position: relative;
+  transform: translateY(-15px) scale(0.98);
+  animation: slideInModal 0.3s 0.05s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  max-height: 90vh; /* Max height */
+  overflow-y: auto; /* Scroll if content is too long */
+}
+
+@keyframes slideInModal { to { transform: translateY(0) scale(1); opacity: 1; } }
+
+.modal-close-btn {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  background: transparent;
+  border: none;
+  font-size: 2.2rem;
+  color: #999;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.2rem;
+  transition: color 0.2s;
+}
+.modal-close-btn:hover { color: #555; }
+
+.modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 1.8rem;
+  color: #333;
+  font-size: 1.7rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Provider Selection Modal */
+.provider-selection-modal .provider-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.provider-item-btn {
+  padding: 1rem 1.2rem;
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 6px;
+  text-align: left;
+  font-size: 1rem;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, transform 0.1s;
+}
+
+.provider-item-btn:hover {
+  background-color: #e9ecef;
+  border-color: #ced4da;
+  transform: translateY(-1px);
+}
+
+/* Payment Form Modal */
+.payment-form-modal .form-group {
+  margin-bottom: 1.1rem;
+}
+
+.payment-form-modal label {
+  display: block;
+  margin-bottom: 0.4rem;
+  color: #454f5b;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.payment-form-modal input[type="text"],
+.payment-form-modal input[type="number"],
+.payment-form-modal input[type="tel"],
+.payment-form-modal select {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid #ccd1d9;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 0.95rem;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.payment-form-modal input:focus,
+.payment-form-modal select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 0 0.15rem rgba(0, 123, 255, 0.2);
+  outline: none;
+}
+
+.payment-form-modal .form-group small {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.75rem;
+  color: #6c757d;
+}
+
+.payment-form-modal .form-actions {
+  margin-top: 1.8rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.8rem;
+}
+
+.payment-form-modal .btn {
+  padding: 0.65rem 1.4rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.payment-form-modal .btn-primary {
+  background-color: #007bff; /* Primary blue */
+  color: white;
+}
+.payment-form-modal .btn-primary:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+.payment-form-modal .btn-primary:disabled {
+  background-color: #6ea8fe;
+  cursor: not-allowed;
+}
+
+.payment-form-modal .btn-secondary {
+  background-color: #6c757d; /* Gray */
+  color: white;
+}
+.payment-form-modal .btn-secondary:hover {
+  background-color: #545b62;
+}
+
+.payment-form-modal .btn:active {
+    transform: scale(0.98);
+}
+
+.payment-form-modal .spinner-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.payment-form-modal .form-message {
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 5px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.payment-form-modal .success-message {
+  background-color: #d1e7dd;
+  color: #0f5132;
+  border: 1px solid #badbcc;
+}
+
+.payment-form-modal .error-message {
+  background-color: #f8d7da;
+  color: #842029;
+  border: 1px solid #f5c2c7;
+}

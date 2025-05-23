@@ -4,15 +4,15 @@ import { ILoginResponse } from '../entities/ILoginResponse';
 import { ICreateAccountRequestDTO } from '../entities/ICreateAccountRequestDTO';
 import { IDbAccountResponseDTO } from '../entities/IDbAccountResponseDTO';
 import { IDbTransactionResponseDTO } from '../entities/IDbTransactionResponseDTO';
-import { ITransferSuccessResponse } from '../entities/ITransferSuccessResponse';
+import { ITransferSuccessResponse } from '../entities/ITransferSuccessResponse'; // Probabil poți reutiliza acest tip pentru răspuns
 import { IOwnAccountTransferRequest } from '../entities/IOwnAccountTransferRequest';
 import { IIntrabankTransferRequest } from '../entities/IIntrabankTransferRequest';
 import { IDomesticBankTransferRequest } from '../entities/IDomesticBankTransferRequest';
-
+import { IBillPaymentRequestDTO } from '../entities/IBillPaymentRequestDTO'; // Importă noul DTO
 
 const getToken = (): string | null => {
   const token = localStorage.getItem('authToken');
-  console.log('[bankingApi:getToken] Retrieved token from localStorage:', token ? token.substring(0, 20) + "..." : null);
+  // console.log('[bankingApi:getToken] Retrieved token from localStorage:', token ? token.substring(0, 20) + "..." : null);
   return token;
 };
 
@@ -22,9 +22,6 @@ const baseQuery = fetchBaseQuery({
     const token = getToken();
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
-      // console.log('[bankingApi:prepareHeaders] Authorization header SET with token:', token.substring(0, 20) + "...");
-    } else {
-      // console.warn('[bankingApi:prepareHeaders] No token found, Authorization header NOT SET.');
     }
     headers.set('Content-Type', 'application/json');
     return headers;
@@ -34,9 +31,10 @@ const baseQuery = fetchBaseQuery({
 export const bankingApiSlice = createApi({
   reducerPath: 'bankingApi',
   baseQuery: baseQuery,
-  tagTypes: ['UserAccount', 'UserTransaction', 'AuthStatus'],
+  tagTypes: ['UserAccount', 'UserTransaction', 'AuthStatus'], // Păstrează tag-urile existente
   endpoints: (builder) => ({
     // --- Auth Endpoints ---
+    // ... (registerUser, loginUser, logoutUser - neschimbate) ...
     registerUser: builder.mutation<string, IUserDTO>({
       query: (userCredentials) => ({
         url: '/auth/register',
@@ -51,11 +49,9 @@ export const bankingApiSlice = createApi({
         body: userCredentials,
       }),
       async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
-        // console.log('[bankingApi:loginUser:onQueryStarted] Attempting login...');
         try {
           const { data } = await queryFulfilled;
           localStorage.setItem('authToken', data.token);
-          // console.log('[bankingApi:loginUser:onQueryStarted] Login successful. Token SAVED to localStorage:', data.token ? data.token.substring(0, 20) + "..." : null);
           if (dispatch) {
              dispatch(bankingApiSlice.util.invalidateTags(['UserAccount', 'UserTransaction', 'AuthStatus']));
           }
@@ -67,16 +63,15 @@ export const bankingApiSlice = createApi({
     logoutUser: builder.mutation<void, void>({
         queryFn: (_arg, _queryApi, _extraOptions, _baseQuery) => {
             localStorage.removeItem('authToken');
-            // console.log('[bankingApi:logoutUser] Token REMOVED from localStorage.');
-            if (_queryApi.dispatch) { // Invalidează tag-urile prin dispatch
+            if (_queryApi.dispatch) {
                 _queryApi.dispatch(bankingApiSlice.util.invalidateTags(['UserAccount', 'UserTransaction', 'AuthStatus']));
             }
             return { data: undefined };
         },
-        // Nu mai este necesar invalidatesTags aici dacă se face prin dispatch în queryFn
     }),
 
     // --- DB Account Endpoints ---
+    // ... (createDbAccount, getUserDbAccounts, getDbAccountDetails - neschimbate) ...
     createDbAccount: builder.mutation<IDbAccountResponseDTO, ICreateAccountRequestDTO>({
       query: (accountData) => ({
         url: '/api/v1/db-accounts',
@@ -86,7 +81,7 @@ export const bankingApiSlice = createApi({
       invalidatesTags:  [{ type: 'UserAccount', id: 'LIST' }],
     }),
     getUserDbAccounts: builder.query<IDbAccountResponseDTO[], void>({
-      query: () => '/api/v1/db-accounts', // Funcția query returnează un string (URL)
+      query: () => '/api/v1/db-accounts',
       providesTags: (result) =>
         result && result.length > 0
           ? [
@@ -96,13 +91,33 @@ export const bankingApiSlice = createApi({
           : [{ type: 'UserAccount' as const, id: 'LIST' }],
     }),
     getDbAccountDetails: builder.query<IDbAccountResponseDTO, string>({
-      query: (accountNumber) => `/api/v1/db-accounts/${accountNumber}`, // Funcția query returnează un string (URL)
+      query: (accountNumber) => `/api/v1/db-accounts/${accountNumber}`,
       providesTags: (_result, _error, accountNumber) => [{ type: 'UserAccount' as const, id: accountNumber }],
+    }),
+    
+    // --- Download Statement Endpoint ---
+    // ... (downloadAccountStatement - neschimbat, dar asigură-te că este aici) ...
+    downloadAccountStatement: builder.query<Blob, { accountNumber: string; startDate: string; endDate: string }>({
+      query: ({ accountNumber, startDate, endDate }) => ({
+        url: `/api/v1/accounts/${accountNumber}/statement`,
+        method: 'GET',
+        params: { startDate, endDate },
+        responseHandler: async (response) => {
+          if (!response.ok) {
+            let errorData;
+            try { errorData = await response.json(); } catch (e) { errorData = { message: await response.text() }; }
+            throw { status: response.status, data: errorData };
+          }
+          return response.blob();
+        },
+        cache: 'no-cache',
+      }),
     }),
 
     // --- DB Transaction Endpoints ---
-    getAllUserTransactions: builder.query<IDbTransactionResponseDTO[], void>({
-      query: () => '/api/v1/transactions', // Funcția query returnează un string (URL)
+    // ... (getAllUserTransactions, getTransactionsForUserAccount - neschimbate) ...
+     getAllUserTransactions: builder.query<IDbTransactionResponseDTO[], void>({
+      query: () => '/api/v1/transactions',
       providesTags: (result) =>
         result && result.length > 0
           ? [
@@ -112,7 +127,7 @@ export const bankingApiSlice = createApi({
           : [{ type: 'UserTransaction' as const, id: 'LIST' }],
     }),
     getTransactionsForUserAccount: builder.query<IDbTransactionResponseDTO[], string>({
-      query: (accountNumber) => `/api/v1/transactions/${accountNumber}`, // Funcția query returnează un string (URL)
+      query: (accountNumber) => `/api/v1/transactions/${accountNumber}`,
       providesTags: (_result, _error, accountNumber) => [
         { type: 'UserTransaction' as const, id: `ACCOUNT_${accountNumber}` },
         { type: 'UserTransaction' as const, id: 'LIST' },
@@ -120,8 +135,9 @@ export const bankingApiSlice = createApi({
     }),
 
     // --- Transfer Endpoints ---
+    // ... (makeOwnAccountTransfer, makeIntrabankTransfer, makeDomesticBankTransfer - neschimbate) ...
     makeOwnAccountTransfer: builder.mutation<ITransferSuccessResponse, IOwnAccountTransferRequest>({
-      query: (transferDetails) => ({ // Funcția query returnează un obiect
+      query: (transferDetails) => ({
         url: '/api/v1/transfers/own-account',
         method: 'POST',
         body: transferDetails,
@@ -137,7 +153,7 @@ export const bankingApiSlice = createApi({
     }),
 
     makeIntrabankTransfer: builder.mutation<ITransferSuccessResponse, IIntrabankTransferRequest>({
-      query: (transferDetails) => ({ // Funcția query returnează un obiect
+      query: (transferDetails) => ({
         url: '/api/v1/transfers/intrabank',
         method: 'POST',
         body: transferDetails,
@@ -151,7 +167,7 @@ export const bankingApiSlice = createApi({
     }),
 
     makeDomesticBankTransfer: builder.mutation<ITransferSuccessResponse, IDomesticBankTransferRequest>({
-      query: (transferDetails) => ({ // Funcția query returnează un obiect
+      query: (transferDetails) => ({
         url: '/api/v1/transfers/domestic-bank',
         method: 'POST',
         body: transferDetails,
@@ -161,6 +177,22 @@ export const bankingApiSlice = createApi({
         { type: 'UserAccount', id: 'LIST' },
         { type: 'UserTransaction', id: 'LIST' },
         { type: 'UserTransaction', id: `ACCOUNT_${arg.fromAccountId.toString()}`},
+      ],
+    }),
+
+    // --- ADĂUGAT: Bill Payment Endpoint ---
+    makeBillPayment: builder.mutation<ITransferSuccessResponse, IBillPaymentRequestDTO>({
+      query: (paymentDetails) => ({
+        url: '/api/v1/payments/bill',
+        method: 'POST',
+        body: paymentDetails,
+      }),
+      invalidatesTags: (_result, _error, arg) => [
+        { type: 'UserAccount', id: arg.fromAccountId.toString() }, // Invalidează contul debitat
+        { type: 'UserAccount', id: 'LIST' }, // Invalidează lista generală de conturi
+        { type: 'UserTransaction', id: 'LIST' }, // Invalidează lista generală de tranzacții
+        // Invalidează tranzacțiile specifice contului debitat
+        { type: 'UserTransaction', id: `ACCOUNT_${arg.fromAccountId.toString()}`}, 
       ],
     }),
   }),
@@ -174,6 +206,7 @@ export const {
   useGetUserDbAccountsQuery,
   useLazyGetUserDbAccountsQuery,
   useGetDbAccountDetailsQuery,
+  useLazyDownloadAccountStatementQuery, // Asigură-te că este aici
   useGetAllUserTransactionsQuery,
   useLazyGetAllUserTransactionsQuery,
   useGetTransactionsForUserAccountQuery,
@@ -181,6 +214,7 @@ export const {
   useMakeOwnAccountTransferMutation,
   useMakeIntrabankTransferMutation,
   useMakeDomesticBankTransferMutation,
+  useMakeBillPaymentMutation, // ADĂUGAT: Exportă noul hook
 } = bankingApiSlice;
 
 export default bankingApiSlice;

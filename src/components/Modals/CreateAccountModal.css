@@ -1,0 +1,163 @@
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1050; /* Peste header */
+  opacity: 0;
+  animation: fadeInOverlay 0.3s forwards;
+}
+
+@keyframes fadeInOverlay {
+  to { opacity: 1; }
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  width: 90%;
+  max-width: 500px;
+  position: relative;
+  transform: translateY(-20px) scale(0.95);
+  animation: slideInModal 0.3s 0.1s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes slideInModal {
+  to { 
+    transform: translateY(0) scale(1);
+    opacity: 1; /* Asigură-te că e opac la final */
+  }
+}
+
+
+.modal-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  color: #888;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.25rem;
+}
+.modal-close-btn:hover {
+  color: #333;
+}
+
+.create-account-modal h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #333;
+  font-size: 1.8rem;
+  text-align: center;
+  font-weight: 600;
+}
+
+.form-group {
+  margin-bottom: 1.2rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #555;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+  font-size: 1rem;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #007bff; /* Sau culoarea ta primară */
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  outline: none;
+}
+.form-group small {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+  color: #777;
+}
+
+
+.form-actions {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.btn {
+  padding: 0.7rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-primary {
+  background-color: #007bff; /* Culoare primară */
+  color: white;
+}
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+.btn-primary:disabled {
+  background-color: #a0cfff;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background-color: #6c757d; /* Culoare secundară (gri) */
+  color: white;
+}
+.btn-secondary:hover {
+  background-color: #545b62;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.form-message {
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.success-message {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
