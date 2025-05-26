@@ -13,7 +13,15 @@ import BillPaymentProviderSelectionModal from '../../components/Modals/BillPayme
 import BillPaymentFormModal from '../../components/Modals/BillPaymentFormModal';
 import { Biller } from '../../constants/billers'; // Importă tipul Biller
 
-export type TransferType = 'own_account' | 'intrabank' | 'domestic_bank' | null;
+// La începutul fișierului MainContent.tsx
+export type TransferType = 
+  'own_account' | 
+  'intrabank' | 
+  'domestic_bank' | 
+  'mia' |             // Adăugat
+  'swift' |           // Adăugat
+  'sepa' |            // Adăugat
+  null;
 
 const exchangeRatesToLEI: Record<string, number> = {
   'LEI': 1,
@@ -286,6 +294,7 @@ const MainContent = () => {
       {/* Modale pentru Transferuri (neschimbate) */}
       {isTransferTypeModalOpen && (
         <TransferTypeSelectionModal
+          isOpen={isTransferTypeModalOpen}
           onClose={handleCloseTransferTypeModal}
           onSelectTransferType={handleSelectTransferType}
         />

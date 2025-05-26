@@ -102,6 +102,8 @@
   font-weight: 500;
 }
 
+
+
 /* Animații */
 @keyframes fadeInModalOverlay {
   from { opacity: 0; }

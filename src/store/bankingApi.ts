@@ -9,6 +9,9 @@ import { IOwnAccountTransferRequest } from '../entities/IOwnAccountTransferReque
 import { IIntrabankTransferRequest } from '../entities/IIntrabankTransferRequest';
 import { IDomesticBankTransferRequest } from '../entities/IDomesticBankTransferRequest';
 import { IBillPaymentRequestDTO } from '../entities/IBillPaymentRequestDTO'; // Importă noul DTO
+import { IMiaPaymentRequest } from '../entities/IMiaPaymentRequest'; // Importă noul DTO
+import { ISwiftPaymentRequest } from '../entities/ISwiftPaymentRequest'; // Importă noul DTO
+import { ISepaPaymentRequest } from '../entities/ISepaPaymentRequest'; // Importă noul DTO
 
 const getToken = (): string | null => {
   const token = localStorage.getItem('authToken');
@@ -195,9 +198,54 @@ export const bankingApiSlice = createApi({
         { type: 'UserTransaction', id: `ACCOUNT_${arg.fromAccountId.toString()}`}, 
       ],
     }),
+
+    // --- NOI PAYMENT ENDPOINTS PENTRU MIA, SWIFT, SEPA ---
+    makeMiaPayment: builder.mutation<ITransferSuccessResponse, IMiaPaymentRequest>({
+      query: (paymentDetails) => ({
+        url: '/api/v1/transfers/mia', // Endpoint definit în TransferController
+        method: 'POST',
+        body: paymentDetails,
+      }),
+      invalidatesTags: (_result, _error, arg) => [ // Tag-uri de invalidare standard
+        { type: 'UserAccount', id: arg.fromAccountId.toString() },
+        { type: 'UserAccount', id: 'LIST' },
+        { type: 'UserTransaction', id: 'LIST' },
+        { type: 'UserTransaction', id: `ACCOUNT_${arg.fromAccountId.toString()}`},
+      ],
+    }),
+
+    makeSwiftPayment: builder.mutation<ITransferSuccessResponse, ISwiftPaymentRequest>({
+      query: (paymentDetails) => ({
+        url: '/api/v1/transfers/swift', // Endpoint definit în TransferController
+        method: 'POST',
+        body: paymentDetails,
+      }),
+      invalidatesTags: (_result, _error, arg) => [
+        { type: 'UserAccount', id: arg.fromAccountId.toString() },
+        { type: 'UserAccount', id: 'LIST' },
+        { type: 'UserTransaction', id: 'LIST' },
+        { type: 'UserTransaction', id: `ACCOUNT_${arg.fromAccountId.toString()}`},
+      ],
+    }),
+
+    makeSepaPayment: builder.mutation<ITransferSuccessResponse, ISepaPaymentRequest>({
+      query: (paymentDetails) => ({
+        url: '/api/v1/transfers/sepa', // Endpoint definit în TransferController
+        method: 'POST',
+        body: paymentDetails,
+      }),
+      invalidatesTags: (_result, _error, arg) => [
+        { type: 'UserAccount', id: arg.fromAccountId.toString() },
+        { type: 'UserAccount', id: 'LIST' },
+        { type: 'UserTransaction', id: 'LIST' },
+        { type: 'UserTransaction', id: `ACCOUNT_${arg.fromAccountId.toString()}`},
+      ],
+    }),
+
   }),
 });
 
+// Copiază toate exporturile existente și adaugă cele noi
 export const {
   useRegisterUserMutation,
   useLoginUserMutation,
@@ -206,7 +254,7 @@ export const {
   useGetUserDbAccountsQuery,
   useLazyGetUserDbAccountsQuery,
   useGetDbAccountDetailsQuery,
-  useLazyDownloadAccountStatementQuery, // Asigură-te că este aici
+  useLazyDownloadAccountStatementQuery,
   useGetAllUserTransactionsQuery,
   useLazyGetAllUserTransactionsQuery,
   useGetTransactionsForUserAccountQuery,
@@ -214,7 +262,11 @@ export const {
   useMakeOwnAccountTransferMutation,
   useMakeIntrabankTransferMutation,
   useMakeDomesticBankTransferMutation,
-  useMakeBillPaymentMutation, // ADĂUGAT: Exportă noul hook
+  useMakeBillPaymentMutation,
+  // Exportă noile hook-uri
+  useMakeMiaPaymentMutation,
+  useMakeSwiftPaymentMutation,
+  useMakeSepaPaymentMutation,
 } = bankingApiSlice;
 
 export default bankingApiSlice;

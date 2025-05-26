@@ -1,21 +1,28 @@
-// import React from 'react';
-import { TransferType } from '../../shared/MainContent/MainContent'; // Ajustează calea
+// src/components/Modals/TransferFormModal.tsx
+// VERSIUNEA CORECTATĂ PENTRU A RANDA FORMULARELE REALE
+import React from 'react';
+import { TransferType } from '../../shared/MainContent/MainContent'; // Ajustează calea dacă e necesar
 import { FaTimes } from 'react-icons/fa';
-import './Modals.css';
+import './Modals.css'; // Folosește CSS-ul comun Modals.css
 
-// Importă formularele specifice
-import TransferToOwnAccountForm from '../TransferForms/TransferToOwnAccountForm'; // Ajustează calea
-import TransferIntrabankForm from '../TransferForms/TransferIntrabankForm';   // Ajustează calea și creează fișierul
-import TransferDomesticBankForm from '../TransferForms/TransferDomesticBankForm'; // Ajustează calea și creează fișierul
+// Importă formularele existente
+import TransferToOwnAccountForm from '../TransferForms/TransferToOwnAccountForm';
+import TransferIntrabankForm from '../TransferForms/TransferIntrabankForm';
+import TransferDomesticBankForm from '../TransferForms/TransferDomesticBankForm';
+
+// Importă noile formulare create (asigură-te că aceste fișiere există și exportă corect componentele)
+import MiaPaymentForm from '../TransferForms/MiaPaymentForm';
+import SepaPaymentForm from '../TransferForms/SepaPaymentForm';
+import SwiftPaymentForm from '../TransferForms/SwiftPaymentForm';
 
 interface TransferFormModalProps {
-  transferType: TransferType;
+  transferType: TransferType; // Acesta vine din MainContent
   onClose: () => void;
 }
 
-const TransferFormModal = ({ transferType, onClose }: TransferFormModalProps) => {
-  let FormComponent = null;
-  let modalTitle = "Inițiază Transfer";
+const TransferFormModal: React.FC<TransferFormModalProps> = ({ transferType, onClose }) => {
+  let FormComponent: React.FC<{ onCloseModal: () => void }> | null = null;
+  let modalTitle = "Inițiază Operațiune";
 
   switch (transferType) {
     case 'own_account':
@@ -23,17 +30,29 @@ const TransferFormModal = ({ transferType, onClose }: TransferFormModalProps) =>
       modalTitle = "Transfer către Conturile Proprii";
       break;
     case 'intrabank':
-      FormComponent = TransferIntrabankForm; // Folosește componenta reală
+      FormComponent = TransferIntrabankForm;
       modalTitle = "Transfer către Alt Cont Digital Banking";
       break;
     case 'domestic_bank':
-      FormComponent = TransferDomesticBankForm; // Folosește componenta reală
+      FormComponent = TransferDomesticBankForm;
       modalTitle = "Transfer către Altă Bancă din Moldova";
       break;
+    case 'mia':
+      FormComponent = MiaPaymentForm; // Folosește componenta reală
+      modalTitle = "Plată Instantanee Națională (MIA)";
+      break;
+    case 'sepa':
+      FormComponent = SepaPaymentForm; // Folosește componenta reală
+      modalTitle = "Plată SEPA (EUR)";
+      break;
+    case 'swift':
+      FormComponent = SwiftPaymentForm; // Folosește componenta reală
+      modalTitle = "Plată Internațională (SWIFT)";
+      break;
     default:
-      console.error("Tip de transfer necunoscut în TransferFormModal:", transferType);
+      console.error("Tip de transfer/plată necunoscut în TransferFormModal:", transferType);
       onClose(); // Închide modalul dacă tipul nu e recunoscut
-      return null; 
+      return null;
   }
 
   return (
